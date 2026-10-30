@@ -144,6 +144,7 @@ def listar_proyectos():
 
 def buscar_proyecto():
     if not listar_proyectos():
+        input("Presione Enter para continuar...")
         return
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
     if id_proyecto is None:
@@ -163,6 +164,7 @@ def buscar_proyecto():
 
 def actualizar_proyecto():
     if not listar_proyectos():
+        input("Presione Enter para continuar...")
         return
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
     if id_proyecto is None:
@@ -206,6 +208,7 @@ def actualizar_proyecto():
 
 def eliminar_proyecto():
     if not listar_proyectos():
+        input("Presione Enter para continuar...")
         return
     print("Eliminar proyecto")
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")

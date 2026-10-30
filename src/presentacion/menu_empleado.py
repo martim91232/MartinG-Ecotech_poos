@@ -124,6 +124,9 @@ def listar_empleados():
 
 def buscar_empleado():
     listar_empleados()
+    if not EmpleadoDAO.listar():
+        input("Presione Enter para continuar...")
+        return
     id_empleado = pedir_id("INGRESE LA ID DEL EMPLEADO:")
     if id_empleado is None:
         return
@@ -141,6 +144,9 @@ def buscar_empleado():
 
 def actualizar_empleado():
     listar_empleados()
+    if not EmpleadoDAO.listar():
+        input("Presione Enter para continuar...")
+        return
     id_empleado = pedir_id("INGRESE LA ID DEL EMPLEADO: ")
     if id_empleado is None:
         return
@@ -178,6 +184,9 @@ def actualizar_empleado():
 
 def eliminar_empleado():
     listar_empleados()
+    if not EmpleadoDAO.listar():
+        input("Presione Enter para continuar...")
+        return
     print("Eliminar empleado")
     id_empleado = pedir_id("INGRESE LA ID DEL EMPLEADO: ")
     if id_empleado is None:

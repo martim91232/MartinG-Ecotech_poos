@@ -88,6 +88,7 @@ def listar_departamentos():
 
 def buscar_departamento():
     if not listar_departamentos():
+        input("Presione Enter para continuar...")
         return
     id_departamento = pedir_id("INGRESE LA ID DEL DEPARTAMENTO: ")
     if id_departamento is None:
@@ -107,6 +108,7 @@ def buscar_departamento():
 
 def actualizar_departamento():
     if not listar_departamentos():
+        input("Presione Enter para continuar...")
         return
     id_departamento = pedir_id("Ingrese la ID del departamento: ")
     if id_departamento is None:
@@ -142,6 +144,7 @@ def actualizar_departamento():
 
 def eliminar_departamento():
     if not listar_departamentos():
+        input("Presione Enter para continuar...")
         return
     print("Eliminar departamento")
     id_departamento = pedir_id("Ingrese la ID del departamento: ")

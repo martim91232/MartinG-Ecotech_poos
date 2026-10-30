@@ -150,6 +150,7 @@ def listar_registros():
 
 def listar_registros_por_empleado():
     if not listar_empleados():
+        input("Presione Enter para continuar...")
         return
     id_empleado = pedir_id("ID del empleado: ")
     if id_empleado is None:
@@ -174,6 +175,7 @@ def listar_registros_por_empleado():
 
 def buscar_registro():
     if not listar_registros():
+        input("Presione Enter para continuar...")
         return
     id_registro = pedir_id("INGRESE LA ID DEL REGISTRO: ")
     if id_registro is None:
@@ -193,6 +195,7 @@ def buscar_registro():
 
 def actualizar_registro():
     if not listar_registros():
+        input("Presione Enter para continuar...")
         return
     id_registro = pedir_id("INGRESE LA ID DEL REGISTRO: ")
     if id_registro is None:
@@ -233,6 +236,7 @@ def actualizar_registro():
 
 def eliminar_registro():
     if not listar_registros():
+        input("Presione Enter para continuar...")
         return
     print("Eliminar registro")
     id_registro = pedir_id("INGRESE LA ID DEL REGISTRO: ")
