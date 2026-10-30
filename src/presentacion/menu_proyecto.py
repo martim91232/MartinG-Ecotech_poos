@@ -74,7 +74,7 @@ def registrar_proyecto():
             break
 
     while True:
-        descripcion = input("Descripcion: ").strip()
+        descripcion = input("Descripción: ").strip()
         if descripcion == "":
             print("La descripcion no puede estar vacia.")
             input("------------------------------\nPresione Enter para continuar...\n")
