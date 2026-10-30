@@ -90,6 +90,7 @@ def registrar_empleado():
         if id_departamento is not None:
             if DepartamentoDAO.buscar_por_id(id_departamento) is None:
                 print("No existe un departamento con esa ID.")
+                input("Presione Enter para continuar...")
                 return
 
         empleado = Empleado(nombre, correo, id_departamento=id_departamento)
@@ -97,6 +98,7 @@ def registrar_empleado():
         print(f"Empleado registrado correctamente. ID: {empleado.id}")
     except Exception as e:
         print(f"No fue posible registrar el empleado: {e}")
+    input("Presione Enter para continuar...")
 
 
 def listar_empleados():

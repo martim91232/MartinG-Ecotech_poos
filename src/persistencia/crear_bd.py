@@ -20,7 +20,10 @@ def crear_tablas():
                 CREATE TABLE IF NOT EXISTS proyecto (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 nombre TEXT NOT NULL,
-                fecha_inicio TEXT
+                descripcion TEXT NOT NULL DEFAULT '',
+                fecha_inicio TEXT NOT NULL,
+                fecha_fin TEXT,
+                estado TEXT NOT NULL DEFAULT 'pendiente'
                 )
             '''
             sql_empleado = '''
@@ -118,6 +121,23 @@ def crear_tablas():
             if "gerente" not in columnas:
                 cursor.execute(
                     "ALTER TABLE departamento ADD COLUMN gerente TEXT"
+                )
+
+            cursor.execute("PRAGMA table_info(proyecto)")
+            columnas = {fila[1] for fila in cursor.fetchall()}
+            if "descripcion" not in columnas:
+                cursor.execute(
+                    "ALTER TABLE proyecto "
+                    "ADD COLUMN descripcion TEXT NOT NULL DEFAULT ''"
+                )
+            if "fecha_fin" not in columnas:
+                cursor.execute(
+                    "ALTER TABLE proyecto ADD COLUMN fecha_fin TEXT"
+                )
+            if "estado" not in columnas:
+                cursor.execute(
+                    "ALTER TABLE proyecto "
+                    "ADD COLUMN estado TEXT NOT NULL DEFAULT 'pendiente'"
                 )
         else:
             cursor.execute("SHOW COLUMNS FROM departamento")

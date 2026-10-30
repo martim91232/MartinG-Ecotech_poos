@@ -65,6 +65,7 @@ def registrar_departamento():
         print(f"Departamento registrado correctamente. ID: {departamento.id}")
     except Exception as e:
         print(f"No fue posible registrar el departamento: {e}")
+    input("Presione Enter para continuar...")
 
 
 def listar_departamentos():

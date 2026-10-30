@@ -1,4 +1,4 @@
-import getpass
+from getpass import getpass
 from entradas import pedir_dato
 from servicios.autenticacion import autenticar, registrar_usuario
 from dominio.usuario import Usuario

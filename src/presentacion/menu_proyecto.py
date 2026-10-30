@@ -94,12 +94,16 @@ def registrar_proyecto():
 
     fecha_fin = input("Fecha de Fin (AAAA-MM-DD, Enter para omitir): ").strip()
     if fecha_fin == "":
-        fecha_fin = None
+        fecha_fin_obj = None
     elif not fecha_valida(fecha_fin):
         print("Fecha de fin no válida. Usa el formato AAAA-MM-DD.")
+        input("Presione Enter para continuar...")
         return
-    elif fecha_fin < fecha_inicio_str:
+    else:
+        fecha_fin_obj = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
+    if fecha_fin_obj is not None and fecha_fin_obj < fecha_inicio:
         print("La fecha de fin no puede ser anterior a la fecha de inicio.")
+        input("Presione Enter para continuar...")
         return
 
     while True:
@@ -109,12 +113,13 @@ def registrar_proyecto():
         else:
             break
     
-    proyecto = Proyecto(nombre, descripcion, fecha_inicio, fecha_fin, estado)
+    proyecto = Proyecto(nombre, descripcion, fecha_inicio, fecha_fin_obj, estado)
     try:
         ProyectoDAO.insertar(proyecto)
         print(f"Proyecto registrado correctamente. ID: {proyecto.id}")
     except Exception as e:
         print(f"No fue posible registrar el proyecto: {e}")
+    input("Presione Enter para continuar...")
 
 
 def listar_proyectos():
