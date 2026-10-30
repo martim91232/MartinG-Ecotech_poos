@@ -61,9 +61,11 @@ def registrar_proyecto():
         nombre = input("Nombre: ").strip()
         if nombre == "":
             print("El nombre no puede estar vacío.")
+            input("Presione Enter para continuar...")
             return
         if not nombre_valido(nombre):
             print("El nombre solo puede tener letras, números y espacios.")
+            input("Presione Enter para continuar...")
             return
         else:
             break
@@ -72,9 +74,11 @@ def registrar_proyecto():
         descripcion = input("Descripcion: ").strip()
         if descripcion == "":
             print("La descripcion no puede estar vacia.")
+            input("Presione Enter para continuar...")
             return
         if not nombre_valido(descripcion):
             print("La descripcion solo puede tener letras, números y espacios.")
+            input("Presione Enter para continuar...")
             return
         else:
             break

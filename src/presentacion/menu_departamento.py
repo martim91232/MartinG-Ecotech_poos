@@ -54,9 +54,11 @@ def registrar_departamento():
     nombre = input("Nombre: ").strip()
     if not nombre:
         print("El nombre no puede estar vacío.")
+        input("Presione Enter para continuar...")
         return
     if not nombre_valido(nombre):
         print("El nombre solo puede contener letras y espacios.")
+        input("Presione Enter para continuar...")
         return
 
     departamento = Departamento(nombre)

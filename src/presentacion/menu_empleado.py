@@ -74,6 +74,11 @@ def registrar_empleado():
 
     if not nombre or not correo:
         print("El nombre y el correo no pueden estar vacíos.")
+        input("Presione Enter para continuar...")
+        return
+    if not nombre_valido(nombre):
+        print("El nombre solo puede contener letras y espacios.")
+        input("Presione Enter para continuar...")
         return
 
     id_departamento = None
@@ -84,6 +89,7 @@ def registrar_empleado():
                 id_departamento = int(texto)
             except ValueError:
                 print("La ID debe ser un número.")
+                input("Presione Enter para continuar...")
                 return
 
     try:
