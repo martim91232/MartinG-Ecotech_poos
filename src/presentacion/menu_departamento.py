@@ -112,6 +112,11 @@ def actualizar_departamento():
     if id_departamento is None:
         return
 
+    if DepartamentoDAO.buscar_por_id(id_departamento) is None:
+        print("No se encontró el departamento.")
+        input("Presione Enter para continuar...")
+        return
+
     nombre_nuevo = input("Nombre nuevo: ").strip()
     if not nombre_nuevo:
         print("El nombre no puede estar vacío.")

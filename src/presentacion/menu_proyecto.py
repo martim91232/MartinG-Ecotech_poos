@@ -168,6 +168,11 @@ def actualizar_proyecto():
     if id_proyecto is None:
         return
 
+    if ProyectoDAO.buscar_por_id(id_proyecto) is None:
+        print("No se encontró el proyecto.")
+        input("Presione Enter para continuar...")
+        return
+
     nombre_nuevo = input("Nombre nuevo: ").strip()
     if nombre_nuevo == "":
         print("El nombre no puede estar vacío.")

@@ -145,6 +145,12 @@ def actualizar_empleado():
     if id_empleado is None:
         return
 
+    empleado = EmpleadoDAO.buscar_por_id(id_empleado)
+    if empleado is None:
+        print("No se encontró el empleado.")
+        input("Presione Enter para continuar...")
+        return
+
     nombre_nuevo = input("Nombre nuevo: ").strip()
     correo_nuevo = input("Correo nuevo: ").strip()
 
@@ -158,12 +164,6 @@ def actualizar_empleado():
         return
 
     try:
-        empleado = EmpleadoDAO.buscar_por_id(id_empleado)
-        if empleado is None:
-            print("No se encontró el empleado")
-            input("Presione Enter para continuar...")
-            return
-
         empleado.nombre = nombre_nuevo
         empleado.correo = correo_nuevo
 

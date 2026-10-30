@@ -198,6 +198,12 @@ def actualizar_registro():
     if id_registro is None:
         return
 
+    registro = RegistroTiempoDAO.buscar_por_id(id_registro)
+    if registro is None:
+        print("No se encontró el registro.")
+        input("Presione Enter para continuar...")
+        return
+
     fecha_nueva = input("Fecha nueva (AAAA-MM-DD): ").strip()
     if fecha_nueva == "":
         print("La fecha no puede estar vacía.")
@@ -213,12 +219,6 @@ def actualizar_registro():
         return
 
     try:
-        registro = RegistroTiempoDAO.buscar_por_id(id_registro)
-        if registro is None:
-            print("No se encontró el registro.")
-            input("Presione Enter para continuar...")
-            return
-
         registro.set_fecha(fecha_nueva)
         registro.set_horas(horas_nuevas)
 
