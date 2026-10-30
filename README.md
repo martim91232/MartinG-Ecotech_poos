@@ -26,8 +26,6 @@ source .venv/Scripts/activate
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 cp .env.example .env
-python -m pip install requests
-pip freeze > requirements.txt
 ```
 
 Para salir del entorno virtual:
