@@ -42,6 +42,7 @@ def pedir_id(mensaje: str):
         return int(input(mensaje).strip())
     except ValueError:
         print("La ID debe ser un número.")
+        input("Presione Enter para continuar...")
         return None
 
 def nombre_valido(nombre: str) -> bool:
@@ -135,6 +136,7 @@ def buscar_empleado():
             print("La ID no pertenece a ningún empleado.")
     except Exception as e:
         print(f"Error al buscar el empleado: {e}")
+    input("Presione Enter para continuar...")
 
 
 def actualizar_empleado():
@@ -148,12 +150,18 @@ def actualizar_empleado():
 
     if not nombre_nuevo or not correo_nuevo:
         print("El nombre y el correo no pueden estar vacíos.")
+        input("Presione Enter para continuar...")
+        return
+    if not nombre_valido(nombre_nuevo):
+        print("El nombre solo puede contener letras y espacios.")
+        input("Presione Enter para continuar...")
         return
 
     try:
         empleado = EmpleadoDAO.buscar_por_id(id_empleado)
         if empleado is None:
             print("No se encontró el empleado")
+            input("Presione Enter para continuar...")
             return
 
         empleado.nombre = nombre_nuevo
@@ -165,6 +173,7 @@ def actualizar_empleado():
             print("No se encontró el empleado.")
     except Exception as e:
         print(f"Error al actualizar el empleado: {e}")
+    input("Presione Enter para continuar...")
 
 
 def eliminar_empleado():
@@ -176,6 +185,7 @@ def eliminar_empleado():
     confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
     if confirmacion != "s":
         print("Eliminación cancelada.")
+        input("Presione Enter para continuar...")
         return
 
     try:
@@ -186,3 +196,4 @@ def eliminar_empleado():
             print("No se encontró el empleado.")
     except Exception as e:
         print(f"Error al eliminar el empleado: {e}")
+    input("Presione Enter para continuar...")

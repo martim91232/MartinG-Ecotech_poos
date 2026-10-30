@@ -38,6 +38,7 @@ def pedir_id(mensaje: str):
         return int(input(mensaje).strip())
     except ValueError:
         print("La ID debe ser un número.")
+        input("Presione Enter para continuar...")
         return None
 
 
@@ -101,6 +102,7 @@ def buscar_departamento():
             print("No se encontró el departamento.")
     except Exception as e:
         print(f"Error al buscar el departamento: {e}")
+    input("Presione Enter para continuar...")
 
 
 def actualizar_departamento():
@@ -113,9 +115,11 @@ def actualizar_departamento():
     nombre_nuevo = input("Nombre nuevo: ").strip()
     if not nombre_nuevo:
         print("El nombre no puede estar vacío.")
+        input("Presione Enter para continuar...")
         return
     if not nombre_valido(nombre_nuevo):
         print("El nombre solo puede contener letras y espacios.")
+        input("Presione Enter para continuar...")
         return
 
     try:
@@ -128,6 +132,7 @@ def actualizar_departamento():
             print("No se encontró el departamento.")
     except Exception as e:
         print(f"Error al actualizar el departamento: {e}")
+    input("Presione Enter para continuar...")
 
 
 def eliminar_departamento():
@@ -140,6 +145,7 @@ def eliminar_departamento():
     confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
     if confirmacion != "s":
         print("Eliminación cancelada.")
+        input("Presione Enter para continuar...")
         return
 
     try:
@@ -150,3 +156,4 @@ def eliminar_departamento():
             print("No se encontró el departamento.")
     except Exception as e:
         print(f"Error al eliminar el departamento: {e}")
+    input("Presione Enter para continuar...")

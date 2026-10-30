@@ -38,6 +38,7 @@ def pedir_id(mensaje: str):
         return int(input(mensaje).strip())
     except ValueError:
         print("La ID debe ser un número.")
+        input("Presione Enter para continuar...")
         return None
 
 
@@ -147,10 +148,6 @@ def buscar_proyecto():
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
     if id_proyecto is None:
         return
-    confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
-    if confirmacion != "s":
-        print("Eliminación cancelada.")
-        return
 
     try:
         encontrado = ProyectoDAO.buscar_por_id(id_proyecto)
@@ -161,6 +158,7 @@ def buscar_proyecto():
             print("No se encontró el proyecto.")
     except Exception as e:
         print(f"Error al buscar el proyecto: {e}")
+    input("Presione Enter para continuar...")
 
 
 def actualizar_proyecto():
@@ -173,9 +171,11 @@ def actualizar_proyecto():
     nombre_nuevo = input("Nombre nuevo: ").strip()
     if nombre_nuevo == "":
         print("El nombre no puede estar vacío.")
+        input("Presione Enter para continuar...")
         return
     if not nombre_valido(nombre_nuevo):
         print("El nombre solo puede tener letras, números y espacios.")
+        input("Presione Enter para continuar...")
         return
 
     fecha_nueva = input("Fecha de inicio nueva (AAAA-MM-DD, Enter para omitir): ").strip()
@@ -183,6 +183,7 @@ def actualizar_proyecto():
         fecha_nueva = None
     elif not fecha_valida(fecha_nueva):
         print("Fecha no válida. Usa el formato AAAA-MM-DD.")
+        input("Presione Enter para continuar...")
         return
 
     try:
@@ -195,6 +196,7 @@ def actualizar_proyecto():
             print("No se encontró el proyecto.")
     except Exception as e:
         print(f"Error al actualizar el proyecto: {e}")
+    input("Presione Enter para continuar...")
 
 
 def eliminar_proyecto():
@@ -203,6 +205,11 @@ def eliminar_proyecto():
     print("Eliminar proyecto")
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
     if id_proyecto is None:
+        return
+    confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
+    if confirmacion != "s":
+        print("Eliminación cancelada.")
+        input("Presione Enter para continuar...")
         return
 
     try:
@@ -213,3 +220,4 @@ def eliminar_proyecto():
             print("No se encontró el proyecto.")
     except Exception as e:
         print(f"Error al eliminar el proyecto: {e}")
+    input("Presione Enter para continuar...")
