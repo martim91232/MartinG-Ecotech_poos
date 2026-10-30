@@ -64,3 +64,35 @@ Contraseña: Admin123*
 Después de iniciar sesión, selecciona `3` para abrir el menú principal. Para crear
 otra cuenta, selecciona `2` antes de iniciar sesión e indica el ID de un empleado
 que todavía no tenga usuario.
+
+## Guardar cambios en GitHub
+
+Ejecuta estos comandos desde la carpeta raiz del repositorio:
+
+1. Revisar que archivos cambiaron:
+
+```bash
+git status
+```
+
+2. Preparar los cambios para guardarlos:
+
+```bash
+git add .
+```
+
+3. Crear un commit con un mensaje:
+
+```bash
+git commit -m "Describe aqui tus cambios"
+```
+
+4. Subir el commit a GitHub:
+
+```bash
+git push
+```
+
+El comando `git push` solo sube los cambios que ya fueron incluidos en un
+commit. La base de datos `ecotech.db` se crea localmente al ejecutar
+`python src/main.py` y no es necesario subirla a GitHub.
