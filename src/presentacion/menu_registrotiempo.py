@@ -4,6 +4,7 @@ from persistencia.empleado_dao import EmpleadoDAO
 from persistencia.proyecto_dao import ProyectoDAO
 from presentacion.menu_empleado import listar_empleados
 from presentacion.menu_proyecto import listar_proyectos
+from datetime import datetime
 
 
 def menu_registro_tiempo():
@@ -38,6 +39,7 @@ def menu_registro_tiempo():
             print("Saliendo...")
         else:
             print("Opción no válida.")
+            input("Presione Enter para continuar...")
 
 
 def pedir_id(mensaje: str):
@@ -65,18 +67,11 @@ def pedir_horas(mensaje: str):
 
 
 def fecha_valida(fecha: str) -> bool:
-    partes = fecha.split("-")
-    if len(partes) != 3:
+    try:
+        datetime.strptime(fecha, "%Y-%m-%d")
+        return True
+    except ValueError:
         return False
-    if not (partes[0].isdigit() and partes[1].isdigit() and partes[2].isdigit()):
-        return False
-    if len(partes[0]) != 4 or len(partes[1]) != 2 or len(partes[2]) != 2:
-        return False
-    if int(partes[1]) < 1 or int(partes[1]) > 12:
-        return False
-    if int(partes[2]) < 1 or int(partes[2]) > 31:
-        return False
-    return True
 
 
 def registrar_tiempo():
@@ -122,7 +117,7 @@ def registrar_tiempo():
             id_proyecto=id_proyecto
         )
         RegistroTiempoDAO.insertar(registro)
-        print(f"Registro de tiempo guardado correctamente. ID: {registro.id()}")
+        print(f"Registro de tiempo guardado correctamente. ID: {registro.id}")
     except Exception as e:
         print(f"No fue posible registrar el tiempo: {e}")
 
@@ -169,6 +164,10 @@ def buscar_registro():
         return
     id_registro = pedir_id("INGRESE LA ID DEL REGISTRO: ")
     if id_registro is None:
+        return
+    confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
+    if confirmacion != "s":
+        print("Eliminación cancelada.")
         return
 
     try:

@@ -30,6 +30,7 @@ def menu_proyecto():
             print("Saliendo...")
         else:
             print("Opción no válida.")
+            input("Presione Enter para continuar...")
 
 
 def pedir_id(mensaje: str):
@@ -48,18 +49,11 @@ def nombre_valido(nombre: str) -> bool:
 
 
 def fecha_valida(fecha: str) -> bool:
-    partes = fecha.split("-")
-    if len(partes) != 3:
+    try:
+        datetime.strptime(fecha, "%Y-%m-%d")
+        return True
+    except ValueError:
         return False
-    if not (partes[0].isdigit() and partes[1].isdigit() and partes[2].isdigit()):
-        return False
-    if len(partes[0]) != 4 or len(partes[1]) != 2 or len(partes[2]) != 2:
-        return False
-    if int(partes[1]) < 1 or int(partes[1]) > 12:
-        return False
-    if int(partes[2]) < 1 or int(partes[2]) > 31:
-        return False
-    return True
 
 
 def registrar_proyecto():
@@ -101,6 +95,12 @@ def registrar_proyecto():
     fecha_fin = input("Fecha de Fin (AAAA-MM-DD, Enter para omitir): ").strip()
     if fecha_fin == "":
         fecha_fin = None
+    elif not fecha_valida(fecha_fin):
+        print("Fecha de fin no válida. Usa el formato AAAA-MM-DD.")
+        return
+    elif fecha_fin < fecha_inicio_str:
+        print("La fecha de fin no puede ser anterior a la fecha de inicio.")
+        return
 
     while True:
         estado = input("Estado del proyecto: ").strip()
@@ -112,7 +112,7 @@ def registrar_proyecto():
     proyecto = Proyecto(nombre, descripcion, fecha_inicio, fecha_fin, estado)
     try:
         ProyectoDAO.insertar(proyecto)
-        print(f"Proyecto registrado correctamente. ID: {proyecto.id()}")
+        print(f"Proyecto registrado correctamente. ID: {proyecto.id}")
     except Exception as e:
         print(f"No fue posible registrar el proyecto: {e}")
 
@@ -137,6 +137,10 @@ def buscar_proyecto():
         return
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
     if id_proyecto is None:
+        return
+    confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
+    if confirmacion != "s":
+        print("Eliminación cancelada.")
         return
 
     try:

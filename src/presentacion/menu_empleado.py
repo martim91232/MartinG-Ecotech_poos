@@ -34,6 +34,7 @@ def menu_empleados():
             print("Saliendo...")
         else:
             print("Opción no válida.")
+            input("Presione Enter para continuar...")
 
 
 def pedir_id(mensaje: str):
@@ -93,7 +94,7 @@ def registrar_empleado():
 
         empleado = Empleado(nombre, correo, id_departamento=id_departamento)
         EmpleadoDAO.insertar(empleado)
-        print(f"Empleado registrado correctamente. ID: {empleado.id()}")
+        print(f"Empleado registrado correctamente. ID: {empleado.id}")
     except Exception as e:
         print(f"No fue posible registrar el empleado: {e}")
 
@@ -163,6 +164,10 @@ def eliminar_empleado():
     print("Eliminar empleado")
     id_empleado = pedir_id("INGRESE LA ID DEL EMPLEADO: ")
     if id_empleado is None:
+        return
+    confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
+    if confirmacion != "s":
+        print("Eliminación cancelada.")
         return
 
     try:

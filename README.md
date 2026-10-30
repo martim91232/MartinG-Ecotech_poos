@@ -51,3 +51,16 @@ python src/main.py
 ```
 
 El menu principal permite entrar al menu de empleados, menu de departamentos, menu de proyectos y menus de registro de tiempo.
+
+## Inicio de sesión
+
+Al iniciar por primera vez se crea la cuenta administrativa:
+
+```text
+Usuario: admin
+Contraseña: Admin123*
+```
+
+Después de iniciar sesión, selecciona `3` para abrir el menú principal. Para crear
+otra cuenta, selecciona `2` antes de iniciar sesión e indica el ID de un empleado
+que todavía no tenga usuario.

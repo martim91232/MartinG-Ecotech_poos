@@ -30,6 +30,7 @@ def menu_departamento():
             print("Saliendo...")
         else:
             print("Opción no válida.")
+            input("Presione Enter para continuar...")
 
 
 def pedir_id(mensaje: str):
@@ -61,7 +62,7 @@ def registrar_departamento():
     departamento = Departamento(nombre)
     try:
         DepartamentoDAO.insertar(departamento)
-        print(f"Departamento registrado correctamente. ID: {departamento.id()}")
+        print(f"Departamento registrado correctamente. ID: {departamento.id}")
     except Exception as e:
         print(f"No fue posible registrar el departamento: {e}")
 
@@ -132,6 +133,10 @@ def eliminar_departamento():
     print("Eliminar departamento")
     id_departamento = pedir_id("Ingrese la ID del departamento: ")
     if id_departamento is None:
+        return
+    confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
+    if confirmacion != "s":
+        print("Eliminación cancelada.")
         return
 
     try:
