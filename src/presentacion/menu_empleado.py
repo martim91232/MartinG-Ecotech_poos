@@ -9,7 +9,9 @@ from persistencia.departamento_dao import DepartamentoDAO
 def menu_empleados():
     opcion = ""
     while opcion != "0":
-        print("\n----- EMPLEADOS -----")
+        print("\n------------------------------")
+        print("----- EMPLEADOS -----")
+        print("------------------------------")
         print("1. Registrar empleado")
         print("2. Listar empleados")
         print("3. Buscar empleado")
@@ -34,7 +36,7 @@ def menu_empleados():
             print("Saliendo...")
         else:
             print("Opción no válida.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def pedir_id(mensaje: str):
@@ -42,7 +44,7 @@ def pedir_id(mensaje: str):
         return int(input(mensaje).strip())
     except ValueError:
         print("La ID debe ser un número.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return None
 
 def nombre_valido(nombre: str) -> bool:
@@ -75,11 +77,11 @@ def registrar_empleado():
 
     if not nombre or not correo:
         print("El nombre y el correo no pueden estar vacíos.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     if not nombre_valido(nombre):
         print("El nombre solo puede contener letras y espacios.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     id_departamento = None
@@ -90,14 +92,14 @@ def registrar_empleado():
                 id_departamento = int(texto)
             except ValueError:
                 print("La ID debe ser un número.")
-                input("Presione Enter para continuar...")
+                input("------------------------------\nPresione Enter para continuar...\n")
                 return
 
     try:
         if id_departamento is not None:
             if DepartamentoDAO.buscar_por_id(id_departamento) is None:
                 print("No existe un departamento con esa ID.")
-                input("Presione Enter para continuar...")
+                input("------------------------------\nPresione Enter para continuar...\n")
                 return
 
         empleado = Empleado(nombre, correo, id_departamento=id_departamento)
@@ -105,7 +107,7 @@ def registrar_empleado():
         print(f"Empleado registrado correctamente. ID: {empleado.id}")
     except Exception as e:
         print(f"No fue posible registrar el empleado: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def listar_empleados():
@@ -125,7 +127,7 @@ def listar_empleados():
 def buscar_empleado():
     listar_empleados()
     if not EmpleadoDAO.listar():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_empleado = pedir_id("INGRESE LA ID DEL EMPLEADO:")
     if id_empleado is None:
@@ -139,13 +141,13 @@ def buscar_empleado():
             print("La ID no pertenece a ningún empleado.")
     except Exception as e:
         print(f"Error al buscar el empleado: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def actualizar_empleado():
     listar_empleados()
     if not EmpleadoDAO.listar():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_empleado = pedir_id("INGRESE LA ID DEL EMPLEADO: ")
     if id_empleado is None:
@@ -154,7 +156,7 @@ def actualizar_empleado():
     empleado = EmpleadoDAO.buscar_por_id(id_empleado)
     if empleado is None:
         print("No se encontró el empleado.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     nombre_nuevo = input("Nombre nuevo: ").strip()
@@ -162,11 +164,11 @@ def actualizar_empleado():
 
     if not nombre_nuevo or not correo_nuevo:
         print("El nombre y el correo no pueden estar vacíos.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     if not nombre_valido(nombre_nuevo):
         print("El nombre solo puede contener letras y espacios.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     try:
@@ -179,13 +181,13 @@ def actualizar_empleado():
             print("No se encontró el empleado.")
     except Exception as e:
         print(f"Error al actualizar el empleado: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def eliminar_empleado():
     listar_empleados()
     if not EmpleadoDAO.listar():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     print("Eliminar empleado")
     id_empleado = pedir_id("INGRESE LA ID DEL EMPLEADO: ")
@@ -194,7 +196,7 @@ def eliminar_empleado():
     confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
     if confirmacion != "s":
         print("Eliminación cancelada.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     try:
@@ -205,4 +207,4 @@ def eliminar_empleado():
             print("No se encontró el empleado.")
     except Exception as e:
         print(f"Error al eliminar el empleado: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")

@@ -5,7 +5,9 @@ from datetime import datetime
 def menu_proyecto():
     opcion = ""
     while opcion != "0":
-        print("\n----- PROYECTOS -----")
+        print("\n------------------------------")
+        print("----- PROYECTOS -----")
+        print("------------------------------")
         print("1. Registrar proyecto")
         print("2. Listar proyectos")
         print("3. Buscar proyecto")
@@ -30,7 +32,7 @@ def menu_proyecto():
             print("Saliendo...")
         else:
             print("Opción no válida.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def pedir_id(mensaje: str):
@@ -38,7 +40,7 @@ def pedir_id(mensaje: str):
         return int(input(mensaje).strip())
     except ValueError:
         print("La ID debe ser un número.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return None
 
 
@@ -62,11 +64,11 @@ def registrar_proyecto():
         nombre = input("Nombre: ").strip()
         if nombre == "":
             print("El nombre no puede estar vacío.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
             return
         if not nombre_valido(nombre):
             print("El nombre solo puede tener letras, números y espacios.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
             return
         else:
             break
@@ -75,11 +77,11 @@ def registrar_proyecto():
         descripcion = input("Descripcion: ").strip()
         if descripcion == "":
             print("La descripcion no puede estar vacia.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
             return
         if not nombre_valido(descripcion):
             print("La descripcion solo puede tener letras, números y espacios.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
             return
         else:
             break
@@ -102,13 +104,13 @@ def registrar_proyecto():
         fecha_fin_obj = None
     elif not fecha_valida(fecha_fin):
         print("Fecha de fin no válida. Usa el formato AAAA-MM-DD.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     else:
         fecha_fin_obj = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
     if fecha_fin_obj is not None and fecha_fin_obj < fecha_inicio:
         print("La fecha de fin no puede ser anterior a la fecha de inicio.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     while True:
@@ -124,7 +126,7 @@ def registrar_proyecto():
         print(f"Proyecto registrado correctamente. ID: {proyecto.id}")
     except Exception as e:
         print(f"No fue posible registrar el proyecto: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def listar_proyectos():
@@ -144,7 +146,7 @@ def listar_proyectos():
 
 def buscar_proyecto():
     if not listar_proyectos():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
     if id_proyecto is None:
@@ -159,12 +161,12 @@ def buscar_proyecto():
             print("No se encontró el proyecto.")
     except Exception as e:
         print(f"Error al buscar el proyecto: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def actualizar_proyecto():
     if not listar_proyectos():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
     if id_proyecto is None:
@@ -172,17 +174,17 @@ def actualizar_proyecto():
 
     if ProyectoDAO.buscar_por_id(id_proyecto) is None:
         print("No se encontró el proyecto.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     nombre_nuevo = input("Nombre nuevo: ").strip()
     if nombre_nuevo == "":
         print("El nombre no puede estar vacío.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     if not nombre_valido(nombre_nuevo):
         print("El nombre solo puede tener letras, números y espacios.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     fecha_nueva = input("Fecha de inicio nueva (AAAA-MM-DD, Enter para omitir): ").strip()
@@ -190,7 +192,7 @@ def actualizar_proyecto():
         fecha_nueva = None
     elif not fecha_valida(fecha_nueva):
         print("Fecha no válida. Usa el formato AAAA-MM-DD.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     try:
@@ -203,12 +205,12 @@ def actualizar_proyecto():
             print("No se encontró el proyecto.")
     except Exception as e:
         print(f"Error al actualizar el proyecto: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def eliminar_proyecto():
     if not listar_proyectos():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     print("Eliminar proyecto")
     id_proyecto = pedir_id("INGRESE LA ID DEL PROYECTO: ")
@@ -217,7 +219,7 @@ def eliminar_proyecto():
     confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
     if confirmacion != "s":
         print("Eliminación cancelada.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     try:
@@ -228,4 +230,4 @@ def eliminar_proyecto():
             print("No se encontró el proyecto.")
     except Exception as e:
         print(f"Error al eliminar el proyecto: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")

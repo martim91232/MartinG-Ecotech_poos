@@ -10,7 +10,9 @@ from datetime import datetime
 def menu_registro_tiempo():
     opcion = ""
     while opcion != "0":
-        print("\n----- REGISTRO DE TIEMPO -----")
+        print("\n------------------------------")
+        print("----- REGISTRO DE TIEMPO -----")
+        print("------------------------------")
         print("1. Registrar tiempo")
         print("2. Listar registros")
         print("3. Buscar registro")
@@ -39,7 +41,7 @@ def menu_registro_tiempo():
             print("Saliendo...")
         else:
             print("Opción no válida.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def pedir_id(mensaje: str):
@@ -47,7 +49,7 @@ def pedir_id(mensaje: str):
         return int(input(mensaje).strip())
     except ValueError:
         print("La ID debe ser un número.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return None
 
 
@@ -56,16 +58,16 @@ def pedir_horas(mensaje: str):
         horas = float(input(mensaje).strip().replace(",", "."))
     except ValueError:
         print("Las horas deben ser un número.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return None
 
     if horas <= 0:
         print("Las horas deben ser mayores a 0.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return None
     if horas > 24:
         print("Las horas no pueden ser más de 24 por día.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return None
     return horas
 
@@ -82,11 +84,11 @@ def registrar_tiempo():
     fecha = input("Fecha (AAAA-MM-DD): ").strip()
     if fecha == "":
         print("La fecha no puede estar vacía.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     if not fecha_valida(fecha):
         print("Fecha no válida. Usa el formato AAAA-MM-DD.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     horas = pedir_horas("Horas trabajadas: ")
@@ -95,7 +97,7 @@ def registrar_tiempo():
 
     if not listar_empleados():
         print("Primero debes registrar un empleado.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_empleado = pedir_id("ID del empleado: ")
     if id_empleado is None:
@@ -103,7 +105,7 @@ def registrar_tiempo():
 
     if not listar_proyectos():
         print("Primero debes registrar un proyecto.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_proyecto = pedir_id("ID del proyecto: ")
     if id_proyecto is None:
@@ -112,12 +114,12 @@ def registrar_tiempo():
     try:
         if EmpleadoDAO.buscar_por_id(id_empleado) is None:
             print("No existe un empleado con esa ID.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
             return
 
         if ProyectoDAO.buscar_por_id(id_proyecto) is None:
             print("No existe un proyecto con esa ID.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
             return
 
         registro = RegistroTiempo(
@@ -130,7 +132,7 @@ def registrar_tiempo():
         print(f"Registro de tiempo guardado correctamente. ID: {registro.id}")
     except Exception as e:
         print(f"No fue posible registrar el tiempo: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def listar_registros():
@@ -150,7 +152,7 @@ def listar_registros():
 
 def listar_registros_por_empleado():
     if not listar_empleados():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_empleado = pedir_id("ID del empleado: ")
     if id_empleado is None:
@@ -160,7 +162,7 @@ def listar_registros_por_empleado():
         registros = RegistroTiempoDAO.listar_por_empleado(id_empleado)
         if not registros:
             print("Ese empleado no tiene registros de tiempo.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
             return
 
         total = 0
@@ -170,12 +172,12 @@ def listar_registros_por_empleado():
         print(f"Total de horas: {total}")
     except Exception as e:
         print(f"Error al listar los registros: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def buscar_registro():
     if not listar_registros():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_registro = pedir_id("INGRESE LA ID DEL REGISTRO: ")
     if id_registro is None:
@@ -190,12 +192,12 @@ def buscar_registro():
             print("No se encontró el registro.")
     except Exception as e:
         print(f"Error al buscar el registro: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def actualizar_registro():
     if not listar_registros():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_registro = pedir_id("INGRESE LA ID DEL REGISTRO: ")
     if id_registro is None:
@@ -204,17 +206,17 @@ def actualizar_registro():
     registro = RegistroTiempoDAO.buscar_por_id(id_registro)
     if registro is None:
         print("No se encontró el registro.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     fecha_nueva = input("Fecha nueva (AAAA-MM-DD): ").strip()
     if fecha_nueva == "":
         print("La fecha no puede estar vacía.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     if not fecha_valida(fecha_nueva):
         print("Fecha no válida. Usa el formato AAAA-MM-DD.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     horas_nuevas = pedir_horas("Horas nuevas: ")
@@ -231,12 +233,12 @@ def actualizar_registro():
             print("No se encontró el registro.")
     except Exception as e:
         print(f"Error al actualizar el registro: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def eliminar_registro():
     if not listar_registros():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     print("Eliminar registro")
     id_registro = pedir_id("INGRESE LA ID DEL REGISTRO: ")
@@ -245,7 +247,7 @@ def eliminar_registro():
     confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
     if confirmacion != "s":
         print("Eliminación cancelada.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     try:
@@ -256,4 +258,4 @@ def eliminar_registro():
             print("No se encontró el registro.")
     except Exception as e:
         print(f"Error al eliminar el registro: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")

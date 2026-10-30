@@ -92,4 +92,4 @@ def menu_privado(usuario_actual):
             return "3"
         else:
             print("Opción no válida.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")

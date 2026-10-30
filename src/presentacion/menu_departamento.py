@@ -5,7 +5,9 @@ from dominio.departamento import Departamento
 def menu_departamento():
     opcion = ""
     while opcion != "0":
-        print("\n----DEPARTAMENTOS----")
+        print("\n------------------------------")
+        print("---- DEPARTAMENTOS ----")
+        print("------------------------------")
         print("1. Registrar departamento")
         print("2. Listar departamentos")
         print("3. Buscar departamento")
@@ -30,7 +32,7 @@ def menu_departamento():
             print("Saliendo...")
         else:
             print("Opción no válida.")
-            input("Presione Enter para continuar...")
+            input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def pedir_id(mensaje: str):
@@ -38,7 +40,7 @@ def pedir_id(mensaje: str):
         return int(input(mensaje).strip())
     except ValueError:
         print("La ID debe ser un número.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return None
 
 
@@ -55,11 +57,11 @@ def registrar_departamento():
     nombre = input("Nombre: ").strip()
     if not nombre:
         print("El nombre no puede estar vacío.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     if not nombre_valido(nombre):
         print("El nombre solo puede contener letras y espacios.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     departamento = Departamento(nombre)
@@ -68,7 +70,7 @@ def registrar_departamento():
         print(f"Departamento registrado correctamente. ID: {departamento.id}")
     except Exception as e:
         print(f"No fue posible registrar el departamento: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def listar_departamentos():
@@ -88,7 +90,7 @@ def listar_departamentos():
 
 def buscar_departamento():
     if not listar_departamentos():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_departamento = pedir_id("INGRESE LA ID DEL DEPARTAMENTO: ")
     if id_departamento is None:
@@ -103,12 +105,12 @@ def buscar_departamento():
             print("No se encontró el departamento.")
     except Exception as e:
         print(f"Error al buscar el departamento: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def actualizar_departamento():
     if not listar_departamentos():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     id_departamento = pedir_id("Ingrese la ID del departamento: ")
     if id_departamento is None:
@@ -116,17 +118,17 @@ def actualizar_departamento():
 
     if DepartamentoDAO.buscar_por_id(id_departamento) is None:
         print("No se encontró el departamento.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     nombre_nuevo = input("Nombre nuevo: ").strip()
     if not nombre_nuevo:
         print("El nombre no puede estar vacío.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     if not nombre_valido(nombre_nuevo):
         print("El nombre solo puede contener letras y espacios.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     try:
@@ -139,12 +141,12 @@ def actualizar_departamento():
             print("No se encontró el departamento.")
     except Exception as e:
         print(f"Error al actualizar el departamento: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")
 
 
 def eliminar_departamento():
     if not listar_departamentos():
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
     print("Eliminar departamento")
     id_departamento = pedir_id("Ingrese la ID del departamento: ")
@@ -153,7 +155,7 @@ def eliminar_departamento():
     confirmacion = input("¿Está seguro de eliminarlo? (s/n): ").strip().lower()
     if confirmacion != "s":
         print("Eliminación cancelada.")
-        input("Presione Enter para continuar...")
+        input("------------------------------\nPresione Enter para continuar...\n")
         return
 
     try:
@@ -164,4 +166,4 @@ def eliminar_departamento():
             print("No se encontró el departamento.")
     except Exception as e:
         print(f"Error al eliminar el departamento: {e}")
-    input("Presione Enter para continuar...")
+    input("------------------------------\nPresione Enter para continuar...\n")

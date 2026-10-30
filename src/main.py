@@ -9,7 +9,9 @@ from presentacion.menu_usuario import solicitar_login, solicitar_registro, menu_
 def menu_principal():
     opcion = ""
     while opcion != "0":
-        print("\n-----MENU PRINCIPAL ECOTECH -----")
+        print("\n------------------------------")
+        print("----- MENU PRINCIPAL ECOTECH -----")
+        print("------------------------------")
         print("1. Departamentos")
         print("2. Empleados")
         print("3. Proyectos")
@@ -36,7 +38,9 @@ def main():
     usuario_actual = None
     while True:
         if usuario_actual is None:
-            print("\n-----MENU DE USUARIO ECOTECH -----")
+            print("\n------------------------------")
+            print("----- MENU DE USUARIO ECOTECH -----")
+            print("------------------------------")
             print("1. Iniciar sesión")
             print("2. Registrar usuario")
             print("0. Salir")
