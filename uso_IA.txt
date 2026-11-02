@@ -2,4 +2,4 @@ El uso de la IA se ha usado en diferentes partes del codigo, principalmente se u
 -Creacion de nombres de departamentos y empleados
 -Copilot para autocompletar
 -Se uso agente Copilot para revisar el codigo y ver que errores tenia, agregando expeciones 
-y mensajes de error para no filtrar informacion privada del codigo.
+y mensajes de error para no filtrar informacion sensible del codigo.
