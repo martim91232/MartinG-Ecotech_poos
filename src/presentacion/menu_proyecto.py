@@ -1,10 +1,12 @@
 from dominio.proyecto import Proyecto
 from persistencia.proyecto_dao import ProyectoDAO
 from datetime import datetime
+from entradas import limpiar_consola
 
 def menu_proyecto():
     opcion = ""
     while opcion != "0":
+        limpiar_consola()
         print("\n------------------------------")
         print("----- PROYECTOS -----")
         print("------------------------------")
@@ -37,7 +39,10 @@ def menu_proyecto():
 
 def pedir_id(mensaje: str):
     try:
-        return int(input(mensaje).strip())
+        texto = input(f"{mensaje} (0 para regresar)").strip()
+        if texto == "0":
+            return None
+        return int(texto)
     except ValueError:
         print("La ID debe ser un número.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -45,8 +50,10 @@ def pedir_id(mensaje: str):
 
 
 def nombre_valido(nombre: str) -> bool:
+    if not nombre or not nombre.strip():
+        return False
     for caracter in nombre:
-        if not (caracter.isalnum() or caracter == " "):
+        if not (caracter.isalpha() or caracter == " "):
             return False
     return True
 
@@ -61,7 +68,9 @@ def fecha_valida(fecha: str) -> bool:
 
 def registrar_proyecto():
     while True:
-        nombre = input("Nombre: ").strip()
+        nombre = input("Nombre (0 para regresar): ").strip()
+        if nombre == "0":
+            return
         if nombre == "":
             print("El nombre no puede estar vacío.")
             input("------------------------------\nPresione Enter para continuar...\n")
@@ -74,7 +83,9 @@ def registrar_proyecto():
             break
 
     while True:
-        descripcion = input("Descripción: ").strip()
+        descripcion = input("Descripción (0 para regresar): ").strip()
+        if descripcion == "0":
+            return
         if descripcion == "":
             print("La descripcion no puede estar vacia.")
             input("------------------------------\nPresione Enter para continuar...\n")
@@ -87,10 +98,15 @@ def registrar_proyecto():
             break
         
     while True:
-        fecha_inicio_str = input("Fecha de inicio (AAAA-MM-DD): ").strip()
+        fecha_inicio_str = input(
+            "Fecha de inicio (AAAA-MM-DD, 0 para regresar): "
+        ).strip()
+        if fecha_inicio_str == "0":
+            return
         
         if not fecha_inicio_str:
             print("La fecha de inicio no puede estar vacía.")
+            input("Presione Enter para continuar...")
             continue
             
         try:
@@ -98,8 +114,13 @@ def registrar_proyecto():
             break
         except ValueError:
             print("Formato incorrecto. Por favor, usa el formato AAAA-MM-DD (ej: 2026-10-15).")
+            input("Presione Enter para continuar...")
 
-    fecha_fin = input("Fecha de Fin (AAAA-MM-DD, Enter para omitir): ").strip()
+    fecha_fin = input(
+        "Fecha de Fin (AAAA-MM-DD, Enter para omitir, 0 para regresar): "
+    ).strip()
+    if fecha_fin == "0":
+        return
     if fecha_fin == "":
         fecha_fin_obj = None
     elif not fecha_valida(fecha_fin):
@@ -114,9 +135,12 @@ def registrar_proyecto():
         return
 
     while True:
-        estado = input("Estado del proyecto: ").strip()
+        estado = input("Estado del proyecto (0 para regresar): ").strip()
+        if estado == "0":
+            return
         if not estado.isalpha():
             print("El estado solo puede contener palabras.")
+            input("Presione Enter para continuar...")
         else:
             break
     
@@ -177,7 +201,9 @@ def actualizar_proyecto():
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
-    nombre_nuevo = input("Nombre nuevo: ").strip()
+    nombre_nuevo = input("Nombre nuevo (0 para regresar): ").strip()
+    if nombre_nuevo == "0":
+        return
     if nombre_nuevo == "":
         print("El nombre no puede estar vacío.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -187,7 +213,11 @@ def actualizar_proyecto():
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
-    fecha_nueva = input("Fecha de inicio nueva (AAAA-MM-DD, Enter para omitir): ").strip()
+    fecha_nueva = input(
+        "Fecha de inicio nueva (AAAA-MM-DD, Enter para omitir, 0 para regresar): "
+    ).strip()
+    if fecha_nueva == "0":
+        return
     if fecha_nueva == "":
         fecha_nueva = None
     elif not fecha_valida(fecha_nueva):

@@ -5,11 +5,13 @@ from persistencia.proyecto_dao import ProyectoDAO
 from presentacion.menu_empleado import listar_empleados
 from presentacion.menu_proyecto import listar_proyectos
 from datetime import datetime
+from entradas import limpiar_consola
 
 
 def menu_registro_tiempo():
     opcion = ""
     while opcion != "0":
+        limpiar_consola()
         print("\n------------------------------")
         print("----- REGISTRO DE TIEMPO -----")
         print("------------------------------")
@@ -36,7 +38,6 @@ def menu_registro_tiempo():
             eliminar_registro()
         elif opcion == "6":
             listar_registros_por_empleado()
-            input("Enter para continuar")
         elif opcion == "0":
             print("Saliendo...")
         else:
@@ -46,7 +47,10 @@ def menu_registro_tiempo():
 
 def pedir_id(mensaje: str):
     try:
-        return int(input(mensaje).strip())
+        texto = input(f"{mensaje} (0 para regresar)").strip()
+        if texto == "0":
+            return None
+        return int(texto)
     except ValueError:
         print("La ID debe ser un número.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -55,7 +59,10 @@ def pedir_id(mensaje: str):
 
 def pedir_horas(mensaje: str):
     try:
-        horas = float(input(mensaje).strip().replace(",", "."))
+        texto = input(f"{mensaje} (0 para regresar)").strip()
+        if texto == "0":
+            return None
+        horas = float(texto.replace(",", "."))
     except ValueError:
         print("Las horas deben ser un número.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -81,7 +88,9 @@ def fecha_valida(fecha: str) -> bool:
 
 
 def registrar_tiempo():
-    fecha = input("Fecha (AAAA-MM-DD): ").strip()
+    fecha = input("Fecha (AAAA-MM-DD, 0 para regresar): ").strip()
+    if fecha == "0":
+        return
     if fecha == "":
         print("La fecha no puede estar vacía.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -209,7 +218,9 @@ def actualizar_registro():
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
-    fecha_nueva = input("Fecha nueva (AAAA-MM-DD): ").strip()
+    fecha_nueva = input("Fecha nueva (AAAA-MM-DD, 0 para regresar): ").strip()
+    if fecha_nueva == "0":
+        return
     if fecha_nueva == "":
         print("La fecha no puede estar vacía.")
         input("------------------------------\nPresione Enter para continuar...\n")

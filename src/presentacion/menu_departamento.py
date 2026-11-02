@@ -1,10 +1,12 @@
 from persistencia.departamento_dao import DepartamentoDAO
 from dominio.departamento import Departamento
+from entradas import limpiar_consola
 
 
 def menu_departamento():
     opcion = ""
     while opcion != "0":
+        limpiar_consola()
         print("\n------------------------------")
         print("---- DEPARTAMENTOS ----")
         print("------------------------------")
@@ -37,7 +39,10 @@ def menu_departamento():
 
 def pedir_id(mensaje: str):
     try:
-        return int(input(mensaje).strip())
+        texto = input(f"{mensaje} (0 para regresar)").strip()
+        if texto == "0":
+            return None
+        return int(texto)
     except ValueError:
         print("La ID debe ser un número.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -54,7 +59,9 @@ def nombre_valido(nombre: str) -> bool:
 
 
 def registrar_departamento():
-    nombre = input("Nombre: ").strip()
+    nombre = input("Nombre (0 para regresar): ").strip()
+    if nombre == "0":
+        return
     if not nombre:
         print("El nombre no puede estar vacío.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -121,7 +128,9 @@ def actualizar_departamento():
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
-    nombre_nuevo = input("Nombre nuevo: ").strip()
+    nombre_nuevo = input("Nombre nuevo (0 para regresar): ").strip()
+    if nombre_nuevo == "0":
+        return
     if not nombre_nuevo:
         print("El nombre no puede estar vacío.")
         input("------------------------------\nPresione Enter para continuar...\n")

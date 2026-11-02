@@ -5,10 +5,12 @@ from presentacion.menu_proyecto import menu_proyecto
 from presentacion.menu_registrotiempo import menu_registro_tiempo
 from persistencia.semilla_bd import cargar_departamentos, cargar_empleados, cargar_usuarios
 from presentacion.menu_usuario import solicitar_login, solicitar_registro, menu_privado
+from entradas import limpiar_consola
 
 def menu_principal():
     opcion = ""
     while opcion != "0":
+        limpiar_consola()
         print("\n------------------------------")
         print("----- MENU PRINCIPAL ECOTECH -----")
         print("------------------------------")
@@ -38,6 +40,7 @@ def main():
     usuario_actual = None
     while True:
         if usuario_actual is None:
+            limpiar_consola()
             print("\n------------------------------")
             print("----- MENU DE USUARIO ECOTECH -----")
             print("------------------------------")
@@ -56,6 +59,7 @@ def main():
                 break
             else:
                 print("Opción no válida.")
+                input("Presione Enter para continuar...")
         else:
             respuesta = menu_privado(usuario_actual)
             if respuesta == "9":

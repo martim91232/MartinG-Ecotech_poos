@@ -1,5 +1,6 @@
 from dominio.empleado import Empleado
 from persistencia.departamento_dao import DepartamentoDAO
+from entradas import limpiar_consola
 from persistencia.empleado_dao import EmpleadoDAO
 from presentacion.menu_departamento import listar_departamentos
 from persistencia.departamento_dao import DepartamentoDAO
@@ -9,6 +10,7 @@ from persistencia.departamento_dao import DepartamentoDAO
 def menu_empleados():
     opcion = ""
     while opcion != "0":
+        limpiar_consola()
         print("\n------------------------------")
         print("----- EMPLEADOS -----")
         print("------------------------------")
@@ -41,7 +43,10 @@ def menu_empleados():
 
 def pedir_id(mensaje: str):
     try:
-        return int(input(mensaje).strip())
+        texto = input(f"{mensaje} (0 para regresar)").strip()
+        if texto == "0":
+            return None
+        return int(texto)
     except ValueError:
         print("La ID debe ser un número.")
         input("------------------------------\nPresione Enter para continuar...\n")
@@ -69,11 +74,16 @@ def mostrar_departamentos():
         return True
     except Exception as e:
         print(f"Error al listar los departamentos: {e}")
+        input("Presione Enter para continuar...")
         return False
 
 def registrar_empleado():
-    nombre = input("Nombre: ").strip()
-    correo = input("Correo: ").strip()
+    nombre = input("Nombre (0 para regresar): ").strip()
+    if nombre == "0":
+        return
+    correo = input("Correo (0 para regresar): ").strip()
+    if correo == "0":
+        return
 
     if not nombre or not correo:
         print("El nombre y el correo no pueden estar vacíos.")
@@ -159,8 +169,12 @@ def actualizar_empleado():
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
-    nombre_nuevo = input("Nombre nuevo: ").strip()
-    correo_nuevo = input("Correo nuevo: ").strip()
+    nombre_nuevo = input("Nombre nuevo (0 para regresar): ").strip()
+    if nombre_nuevo == "0":
+        return
+    correo_nuevo = input("Correo nuevo (0 para regresar): ").strip()
+    if correo_nuevo == "0":
+        return
 
     if not nombre_nuevo or not correo_nuevo:
         print("El nombre y el correo no pueden estar vacíos.")
