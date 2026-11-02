@@ -6,6 +6,7 @@ Aplicacion de consola en Python para administrar empleados. Permite registrar, l
 - `src/presentacion`: distintos menus
 - `main.py`: punto de entrada  para los menus de la aplicacion.
 - `src/dominio/`: modelos de empleado, departamento, proyecto y registro de tiempo.
+- 'src/servicios': autenticacion para usuario
 - `src/persistencia/`: conexion a la base de datos, creacion de tablas y objetos de acceso a datos.
 - `requirements.txt`: dependencias de Python.
 
