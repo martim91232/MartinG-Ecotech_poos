@@ -61,8 +61,6 @@ except (ValueError, KeyError, TypeError):
     # Controlar valores inválidos, claves ausentes o tipos incorrectos.
     print("La respuesta no contiene un indicador válido.")
 
- 
 
-               
 
 

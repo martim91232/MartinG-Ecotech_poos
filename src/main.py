@@ -42,7 +42,7 @@ def main():
         if usuario_actual is None:
             limpiar_consola()
             print("\n------------------------------")
-            print("----- MENU DE USUARIO ECOTECH -----")
+            print("----- MENU DE ADMINISTRADOR -----")
             print("------------------------------")
             print("1. Iniciar sesión")
             print("2. Registrar usuario")
