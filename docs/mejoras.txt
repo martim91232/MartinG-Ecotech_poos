@@ -1,0 +1,4 @@
+Mejorar diagrama uml, mejorar clases. validaciones
+-crear menu administrador y menu usuario, el usuario tiene que ver su ficha como iD del empleado, nombre, cargo y area
+-el administrador ve gestion de empleados o informes. en menu empleado solo tiene que ver su ficha, por ejemplo "ana" elige mi ficha
+y el sistema busca su id pero bruno no puede ver la ficha de ana

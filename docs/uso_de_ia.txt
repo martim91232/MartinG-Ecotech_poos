@@ -1,0 +1,10 @@
+El uso de la IA se ha usado en diferentes partes del codigo, principalmente se uso para:
+-Creacion de nombres de departamentos y empleados
+-Copilot para autocompletar
+-Se uso agente Copilot para revisar el codigo y ver que errores tenia, agregando expeciones 
+y mensajes de error para no filtrar informacion sensible del codigo.
+
+-El empleado no puede ver departamentos,registrotiempo,empleados, solo l peude ver dministrador osea hy que moverlos ahora, separrlos en 2 menus, menu empleado y administrador
+-se puede usar la api de main_prueba.py
+
+-1. Mi ficha 2. Mis registros 3. Consultar API" menu administrador
