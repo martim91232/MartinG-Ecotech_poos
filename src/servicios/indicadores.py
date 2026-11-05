@@ -27,3 +27,9 @@ def extraer_clp(datos, moneda="CLP"):
 
     return datos.get("time_last_update_utc"), valor
 
+
+#Aqui iria historial de la API
+
+
+
+

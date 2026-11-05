@@ -16,7 +16,7 @@ class Empleado:
                 f"El nombre no puede superar los {Empleado.MAX_NOMBRE} caracteres."
             )
         if not all(caracter.isalpha() or caracter == " "
-                   for caracter in nombre):
+                for caracter in nombre):
             raise ValueError("El nombre solo puede contener letras y espacios.")
         return nombre.strip()
 
