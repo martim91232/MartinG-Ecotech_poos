@@ -2,7 +2,7 @@ class Usuario:
     MIN_USUARIO = 3
     MAX_USUARIO = 40
     MIN_CLAVE = 6
-    ROL=("admin", "empleado")
+    ROLES = ("admin", "empleado")
 
     def __init__(self, nombre_usuario, password_hash, empleado_id, rol ="empleado", id=None):
         if type(empleado_id) is not int or empleado_id <= 0:
@@ -11,7 +11,7 @@ class Usuario:
         self.empleado_id = empleado_id
         self.nombre_usuario = self.normalizar_usuario(nombre_usuario)
         self.password_hash = password_hash
-        self.rol =self.validar_rol 
+        self.rol = self.validar_rol(rol)
 
     @classmethod
     def normalizar_usuario(cls, nombre):

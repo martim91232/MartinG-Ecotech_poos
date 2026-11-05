@@ -46,14 +46,19 @@ def pedir_id(mensaje: str):
         texto = input(f"{mensaje} (0 para regresar)").strip()
         if texto == "0":
             return None
-        return int(texto)
+        valor = int(texto)
+        if not 1 <= valor <= 9223372036854775807:
+            raise ValueError
+        return valor
     except ValueError:
-        print("La ID debe ser un número.")
+        print("Ingresa una ID válida dentro del rango permitido.")
         input("------------------------------\nPresione Enter para continuar...\n")
         return None
 
 def nombre_valido(nombre: str) -> bool:
     if not nombre or not nombre.strip():
+        return False
+    if len(nombre.strip()) > Empleado.MAX_NOMBRE:
         return False
     for caracter in nombre:
         if not (caracter.isalpha() or caracter == " "):
@@ -89,8 +94,18 @@ def registrar_empleado():
         print("El nombre y el correo no pueden estar vacíos.")
         input("------------------------------\nPresione Enter para continuar...\n")
         return
+    if len(correo) > Empleado.MAX_CORREO:
+        print(
+            "El correo no puede superar "
+            f"los {Empleado.MAX_CORREO} caracteres."
+        )
+        input("------------------------------\nPresione Enter para continuar...\n")
+        return
     if not nombre_valido(nombre):
-        print("El nombre solo puede contener letras y espacios.")
+        print(
+            "El nombre solo puede contener letras y espacios y tener "
+            f"hasta {Empleado.MAX_NOMBRE} caracteres."
+        )
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
@@ -180,8 +195,18 @@ def actualizar_empleado():
         print("El nombre y el correo no pueden estar vacíos.")
         input("------------------------------\nPresione Enter para continuar...\n")
         return
+    if len(correo_nuevo) > Empleado.MAX_CORREO:
+        print(
+            "El correo no puede superar "
+            f"los {Empleado.MAX_CORREO} caracteres."
+        )
+        input("------------------------------\nPresione Enter para continuar...\n")
+        return
     if not nombre_valido(nombre_nuevo):
-        print("El nombre solo puede contener letras y espacios.")
+        print(
+            "El nombre solo puede contener letras y espacios y tener "
+            f"hasta {Empleado.MAX_NOMBRE} caracteres."
+        )
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 

@@ -42,9 +42,12 @@ def pedir_id(mensaje: str):
         texto = input(f"{mensaje} (0 para regresar)").strip()
         if texto == "0":
             return None
-        return int(texto)
+        valor = int(texto)
+        if not 1 <= valor <= 9223372036854775807:
+            raise ValueError
+        return valor
     except ValueError:
-        print("La ID debe ser un número.")
+        print("Ingresa una ID válida dentro del rango permitido.")
         input("------------------------------\nPresione Enter para continuar...\n")
         return None
 

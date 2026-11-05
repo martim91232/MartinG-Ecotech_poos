@@ -52,6 +52,7 @@ def crear_tablas():
                 nombre_usuario TEXT NOT NULL UNIQUE,
                 password_hash TEXT NOT NULL,
                 id_empleado INTEGER NOT NULL UNIQUE,
+                rol TEXT NOT NULL DEFAULT 'empleado',
                 FOREIGN KEY (id_empleado) REFERENCES empleado(id)
                 )
             '''
@@ -140,6 +141,18 @@ def crear_tablas():
                     "ALTER TABLE proyecto "
                     "ADD COLUMN estado TEXT NOT NULL DEFAULT 'pendiente'"
                 )
+
+            cursor.execute("PRAGMA table_info(usuario)")
+            columnas = {fila[1] for fila in cursor.fetchall()}
+            if "rol" not in columnas:
+                cursor.execute(
+                    "ALTER TABLE usuario ADD COLUMN rol TEXT NOT NULL "
+                    "DEFAULT 'empleado'"
+                )
+            cursor.execute(
+                "UPDATE usuario SET rol = 'admin' "
+                "WHERE nombre_usuario = 'admin'"
+            )
         else:
             cursor.execute("SHOW COLUMNS FROM departamento")
             columnas = {fila[0] for fila in cursor.fetchall()}
@@ -152,6 +165,17 @@ def crear_tablas():
                 cursor.execute(
                     "ALTER TABLE departamento ADD COLUMN gerente VARCHAR(100)"
                 )
+            cursor.execute("SHOW COLUMNS FROM usuario")
+            columnas = {fila[0] for fila in cursor.fetchall()}
+            if "rol" not in columnas:
+                cursor.execute(
+                    "ALTER TABLE usuario ADD COLUMN rol VARCHAR(20) "
+                    "NOT NULL DEFAULT 'empleado'"
+                )
+            cursor.execute(
+                "UPDATE usuario SET rol = 'admin' "
+                "WHERE nombre_usuario = 'admin'"
+            )
 
         conexion.commit()
 

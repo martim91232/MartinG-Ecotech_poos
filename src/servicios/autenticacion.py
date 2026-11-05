@@ -17,7 +17,7 @@ def crear_hash(clave):
     ).decode("utf-8")
 
 
-def registrar_usuario(empleado_id, nombre, clave):
+def registrar_usuario(empleado_id, nombre, clave, rol="empleado"):
     if EmpleadoDAO.buscar_por_id(empleado_id) is None:
         raise ValueError("No existe un empleado con ese ID.")
 
@@ -28,7 +28,7 @@ def registrar_usuario(empleado_id, nombre, clave):
         raise ValueError("El empleado ya tiene una cuenta registrada.")
 
     hash_guardado = crear_hash(clave)
-    usuario = Usuario(nombre, hash_guardado, empleado_id)
+    usuario = Usuario(nombre, hash_guardado, empleado_id, rol=rol)
 
     usuario_creado = UsuarioDAO.insertar(usuario)
     return usuario_creado.id
@@ -51,3 +51,25 @@ def autenticar(nombre, clave):
         return None
     return {"id": cuenta.id, "empleado_id": cuenta.empleado_id,
             "nombre_usuario": cuenta.nombre_usuario, "rol": cuenta.rol}
+
+
+def autenticar_empleado(empleado_id, correo):
+    if type(empleado_id) is not int or empleado_id <= 0:
+        raise ValueError("El ID del empleado debe ser positivo.")
+    if not isinstance(correo, str) or not correo.strip():
+        raise ValueError("El correo no puede estar vacío.")
+
+    empleado = EmpleadoDAO.buscar_por_id(empleado_id)
+    if empleado is None or empleado.correo.lower() != correo.strip().lower():
+        return None
+
+    cuenta = UsuarioDAO.buscar_por_empleado(empleado.id)
+    if cuenta is not None and cuenta.rol == "admin":
+        return None
+
+    return {
+        "id": None,
+        "empleado_id": empleado.id,
+        "nombre_usuario": empleado.nombre,
+        "rol": "empleado",
+    }

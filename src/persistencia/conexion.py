@@ -1,9 +1,11 @@
 import os
 import sqlite3
+from pathlib import Path
 import pymysql
 from dotenv import load_dotenv
 
-load_dotenv()
+RAIZ_PROYECTO = Path(__file__).resolve().parents[2]
+load_dotenv(RAIZ_PROYECTO / ".env")
 
 
 def obtener_motor():
@@ -19,7 +21,12 @@ def marcador_sql():
 def abrir_conexion():
     motor = obtener_motor()
     if motor == "sqlite":
-        conexion = sqlite3.connect(os.getenv("DB_NAME", "ecotech.db"))
+        nombre_bd = os.getenv("DB_NAME", "ecotech.db")
+        ruta_bd = Path(nombre_bd)
+        if not ruta_bd.is_absolute():
+            ruta_bd = RAIZ_PROYECTO / ruta_bd
+        ruta_bd.parent.mkdir(parents=True, exist_ok=True)
+        conexion = sqlite3.connect(str(ruta_bd))
         conexion.execute("PRAGMA foreign_keys = ON")
         return conexion
 

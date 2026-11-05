@@ -33,28 +33,11 @@ def cargar_departamentos(mostrar_mensajes=True):
 
 
 def cargar_empleados(departamento_demo=None, mostrar_mensajes=True):
-    if isinstance(departamento_demo, Departamento):
-        departamento_demo = departamento_demo.id
-
-    if departamento_demo is None:
-        departamentos = DepartamentoDAO.listar()
-        departamento = next(
-            (
-                item for item in departamentos
-                if item.nombre == "Soporte Tecnico"
-            ),
-            departamentos
-        )
-        if departamento is None:
-            raise ValueError(
-                "No existe ningún departamento registrado; "
-                "cargue los departamentos antes que los empleados."
-            )
-        departamento_demo = departamento.id
-
-    if DepartamentoDAO.buscar_por_id(departamento_demo) is None:
+    departamentos = DepartamentoDAO.listar()
+    if not departamentos:
         raise ValueError(
-            f"No existe el departamento con ID {departamento_demo}."
+            "No existe ningún departamento registrado; "
+            "cargue los departamentos antes que los empleados."
         )
 
     datos = [
@@ -80,16 +63,20 @@ def cargar_empleados(departamento_demo=None, mostrar_mensajes=True):
         ("Macarena Baeza", "macarena.baeza@ecotech.cl"),
     ]
 
-    for nombre, correo in datos:
+    for indice, (nombre, correo) in enumerate(datos):
+        departamento = departamentos[indice % len(departamentos)]
         existente = EmpleadoDAO.buscar_por_correo(correo)
         if existente is not None:
+            if existente.id_departamento != departamento.id:
+                existente.id_departamento = departamento.id
+                EmpleadoDAO.actualizar(existente)
             if mostrar_mensajes:
                 print(f"Ya existe: {correo}")
             continue
         empleado = Empleado(
             nombre,
             correo,
-            id_departamento=departamento_demo
+            id_departamento=departamento.id
         )
         EmpleadoDAO.insertar(empleado)
         if mostrar_mensajes:
@@ -107,7 +94,9 @@ def cargar_usuarios(mostrar_mensajes=True):
         return
 
     try:
-        usuario_id = registrar_usuario(empleado.id, "admin", "Admin123*")
+        usuario_id = registrar_usuario(
+            empleado.id, "admin", "Admin123*", rol="admin"
+        )
         if usuario_id:
             if mostrar_mensajes:
                 print("Creado: admin")

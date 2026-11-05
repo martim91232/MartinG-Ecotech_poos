@@ -4,7 +4,7 @@ from presentacion.menu_empleado import menu_empleados
 from presentacion.menu_proyecto import menu_proyecto
 from presentacion.menu_registrotiempo import menu_registro_tiempo
 from persistencia.semilla_bd import cargar_departamentos, cargar_empleados, cargar_usuarios
-from presentacion.menu_usuario import solicitar_login, solicitar_registro, menu_privado
+from presentacion.menu_usuario import solicitar_login, menu_privado
 from entradas import limpiar_consola
 
 def menu_principal():
@@ -42,18 +42,15 @@ def main():
         if usuario_actual is None:
             limpiar_consola()
             print("\n------------------------------")
-            print("----- MENU DE ADMINISTRADOR -----")
+            print("----- MENU DE USUARIO ECOTECH -----")
             print("------------------------------")
             print("1. Iniciar sesión")
-            print("2. Registrar usuario")
             print("0. Salir")
 
             opcion = input("Seleccione una opción: ").strip()
 
             if opcion == "1":
                 usuario_actual = solicitar_login()
-            elif opcion == "2":
-                solicitar_registro()
             elif opcion == "0":
                 print("Hasta luego.")
                 break

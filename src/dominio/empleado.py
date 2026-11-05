@@ -1,7 +1,38 @@
+import re
+
 from dominio.registrotiempo import RegistroTiempo
 
 
 class Empleado:
+    MAX_NOMBRE = 100
+    MAX_CORREO = 150
+
+    @staticmethod
+    def validar_nombre(nombre):
+        if not isinstance(nombre, str) or not nombre.strip():
+            raise ValueError("El nombre no puede estar vacío.")
+        if len(nombre.strip()) > Empleado.MAX_NOMBRE:
+            raise ValueError(
+                f"El nombre no puede superar los {Empleado.MAX_NOMBRE} caracteres."
+            )
+        if not all(caracter.isalpha() or caracter == " "
+                   for caracter in nombre):
+            raise ValueError("El nombre solo puede contener letras y espacios.")
+        return nombre.strip()
+
+    @staticmethod
+    def validar_correo(correo):
+        if not isinstance(correo, str) or not correo.strip():
+            raise ValueError("El correo no puede estar vacío.")
+        correo = correo.strip()
+        if len(correo) > Empleado.MAX_CORREO:
+            raise ValueError(
+                f"El correo no puede superar los {Empleado.MAX_CORREO} caracteres."
+            )
+        if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", correo):
+            raise ValueError("Ingresa un correo válido.")
+        return correo
+
     def __init__(self, nombre: str, correo: str, id=None, id_departamento=None):
         self._id = id
         self._nombre = nombre

@@ -37,7 +37,7 @@ deactivate
 
 ## Configuracion de la base de datos
 
-Sin configuracion adicional se usa SQLite y se crea `ecotech.db` en la carpeta desde la que se ejecuta la aplicacion. Al iniciar, la aplicacion crea la tabla de empleados si no existe.
+Sin configuracion adicional se usa SQLite y se crea `ecotech.db` dentro de la carpeta raiz del proyecto. La ruta no depende de la carpeta desde la que se ejecute la aplicacion. Al iniciar, la aplicacion crea la tabla de empleados si no existe.
 
 Para configurar valores propios, copia `src/.env.example` como `src/.env` y edita sus variables. El motor predeterminado es SQLite (`DB_ENGINE=sqlite`). Para usar MySQL, configura `DB_ENGINE=mysql`, `DB_NAME`, `DB_HOST`, `DB_PORT`, `DB_USER` y `DB_PASSWORD`; la base de datos debe existir previamente. No publiques `src/.env` ni credenciales reales.
 
@@ -60,9 +60,15 @@ Usuario: admin
 Contraseña: Admin123*
 ```
 
-Después de iniciar sesión, selecciona `3` para abrir el menú principal. Para crear
+Después de iniciar sesión, una cuenta administradora selecciona `4` para abrir el menú principal. Para crear
 otra cuenta, selecciona `2` antes de iniciar sesión e indica el ID de un empleado
 que todavía no tenga usuario.
+
+El menú autenticado muestra la ficha, los registros propios y la consulta de la
+API para cualquier usuario. Las cuentas con rol `admin` también pueden abrir el
+menú de administración para gestionar departamentos, empleados, proyectos y
+registros de tiempo. Los empleados solo pueden consultar su ficha, sus registros
+y el departamento vinculado a ellos.
 
 ## Guardar cambios en GitHub
 
