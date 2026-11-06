@@ -61,14 +61,22 @@ Contraseña: Admin123*
 ```
 
 Después de iniciar sesión, una cuenta administradora selecciona `4` para abrir el menú principal. Para crear
-otra cuenta, selecciona `2` antes de iniciar sesión e indica el ID de un empleado
-que todavía no tenga usuario.
+otra cuenta, selecciona `2` antes de iniciar sesión, indica el ID de un empleado
+que todavía no tenga usuario y asigna sus credenciales. Después, el empleado
+inicia sesión usando su correo y contraseña.
+
+Las cuentas iniciales de los empleados se crean automáticamente al iniciar la
+aplicación. La contraseña inicial es `Empleado123*` y se puede usar con el
+correo registrado del empleado, por ejemplo `fernanda.tapia@ecotech.cl`.
 
 El menú autenticado muestra la ficha, los registros propios y la consulta de la
-API para cualquier usuario. Las cuentas con rol `admin` también pueden abrir el
-menú de administración para gestionar departamentos, empleados, proyectos y
-registros de tiempo. Los empleados solo pueden consultar su ficha, sus registros
-y el departamento vinculado a ellos.
+API e historial de indicadores para cualquier usuario. Si la API no responde,
+se utiliza el último indicador guardado en la base local y se muestra claramente
+su origen. Las cuentas con rol `admin` también pueden abrir el
+menú de administración para gestionar departamentos, empleados, proyectos,
+registros de tiempo, cuentas, gerentes y asignaciones de proyectos. Los
+empleados pueden consultar y actualizar su ficha, consultar sus registros, ver
+sus proyectos asignados y registrar horas únicamente en esos proyectos.
 
 ## Guardar cambios en GitHub
 

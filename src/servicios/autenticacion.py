@@ -53,23 +53,28 @@ def autenticar(nombre, clave):
             "nombre_usuario": cuenta.nombre_usuario, "rol": cuenta.rol}
 
 
-def autenticar_empleado(empleado_id, correo):
-    if type(empleado_id) is not int or empleado_id <= 0:
-        raise ValueError("El ID del empleado debe ser positivo.")
+def autenticar_empleado(correo, clave):
     if not isinstance(correo, str) or not correo.strip():
         raise ValueError("El correo no puede estar vacío.")
+    if not isinstance(clave, str):
+        return None
+    datos = clave.encode("utf-8")
+    if not 0 < len(datos) <= MAX_BYTES_BCRYPT:
+        return None
 
-    empleado = EmpleadoDAO.buscar_por_id(empleado_id)
-    if empleado is None or empleado.correo.lower() != correo.strip().lower():
+    empleado = EmpleadoDAO.buscar_por_correo(correo.strip())
+    if empleado is None:
         return None
 
     cuenta = UsuarioDAO.buscar_por_empleado(empleado.id)
-    if cuenta is not None and cuenta.rol == "admin":
+    if cuenta is None or cuenta.rol != "empleado":
+        return None
+    if not bcrypt.checkpw(datos, cuenta.password_hash.encode("utf-8")):
         return None
 
     return {
-        "id": None,
+        "id": cuenta.id,
         "empleado_id": empleado.id,
-        "nombre_usuario": empleado.nombre,
+        "nombre_usuario": cuenta.nombre_usuario,
         "rol": "empleado",
     }

@@ -1,6 +1,9 @@
 import math
 
 import requests
+from persistencia.indicador_dao import IndicadorDAO
+from servicios.deserializador_indicador import DeserializadorIndicador
+from servicios.permisos import exigir_sesion
 
 
 def obtener_datos():
@@ -25,11 +28,28 @@ def extraer_clp(datos, moneda="CLP"):
     ):
         raise ValueError("La moneda solicitada no tiene un valor válido.")
 
-    return datos.get("time_last_update_utc"), valor
+    fecha = datos.get("time_last_update_utc")
+    if not isinstance(fecha, str) or len(fecha) < 10:
+        raise ValueError("La API no entregó una fecha válida.")
+    return fecha[:10], valor
 
 
-#Aqui iria historial de la API
+def consultar_indicador(sesion):
+    exigir_sesion(sesion)
+    try:
+        indicador = DeserializadorIndicador.desde_api(obtener_datos())
+        IndicadorDAO.guardar(indicador)
+        return indicador, "API"
+    except (requests.exceptions.RequestException, TypeError, ValueError):
+        historial = obtener_historial(sesion)
+        if historial:
+            return historial[0], "BD local"
+        raise ValueError("No hay datos disponibles de la API ni respaldo local.")
 
+
+def obtener_historial(sesion):
+    exigir_sesion(sesion)
+    return IndicadorDAO.listar()
 
 
 

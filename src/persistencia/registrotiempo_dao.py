@@ -12,14 +12,15 @@ class RegistroTiempoDAO:
             marca = marcador_sql()
             sql = f"""
                 INSERT INTO registro_tiempo
-                (fecha, horas, id_empleado, id_proyecto)
-                VALUES ({marca}, {marca}, {marca}, {marca})
+                (fecha, horas, descripcion, id_empleado, id_proyecto)
+                VALUES ({marca}, {marca}, {marca}, {marca}, {marca})
             """
             cursor.execute(
                 sql,
                 (
                     registro.fecha,
                     registro.horas,
+                    registro.descripcion,
                     registro.id_empleado,
                     registro.id_proyecto
                 )
@@ -41,8 +42,9 @@ class RegistroTiempoDAO:
             id=fila[0],
             fecha=fila[1],
             horas=fila[2],
-            id_empleado=fila[3],
-            id_proyecto=fila[4]
+            descripcion=fila[3],
+            id_empleado=fila[4],
+            id_proyecto=fila[5]
         )
 
     @staticmethod
@@ -53,7 +55,7 @@ class RegistroTiempoDAO:
             cursor = conexion.cursor()
             marca = marcador_sql()
             sql = f"""
-                SELECT id, fecha, horas, id_empleado, id_proyecto
+                SELECT id, fecha, horas, descripcion, id_empleado, id_proyecto
                 FROM registro_tiempo WHERE id = {marca}
             """
             cursor.execute(sql, (id_registro,))
@@ -72,7 +74,7 @@ class RegistroTiempoDAO:
             conexion = abrir_conexion()
             cursor = conexion.cursor()
             cursor.execute(
-                "SELECT id, fecha, horas, id_empleado, id_proyecto "
+                "SELECT id, fecha, horas, descripcion, id_empleado, id_proyecto "
                 "FROM registro_tiempo"
             )
             filas = cursor.fetchall()
@@ -92,7 +94,7 @@ class RegistroTiempoDAO:
             cursor = conexion.cursor()
             marca = marcador_sql()
             sql = f"""
-                SELECT id, fecha, horas, id_empleado, id_proyecto
+                SELECT id, fecha, horas, descripcion, id_empleado, id_proyecto
                 FROM registro_tiempo WHERE id_empleado = {marca}
             """
             cursor.execute(sql, (id_empleado,))
@@ -113,7 +115,7 @@ class RegistroTiempoDAO:
             cursor = conexion.cursor()
             marca = marcador_sql()
             sql = f"""
-                SELECT id, fecha, horas, id_empleado, id_proyecto
+                SELECT id, fecha, horas, descripcion, id_empleado, id_proyecto
                 FROM registro_tiempo WHERE id_proyecto = {marca}
             """
             cursor.execute(sql, (id_proyecto,))
@@ -136,7 +138,8 @@ class RegistroTiempoDAO:
             sql = (
                 "UPDATE registro_tiempo "
                 f"SET fecha = {marca}, horas = {marca}, "
-                f"id_empleado = {marca}, id_proyecto = {marca} "
+                f"descripcion = {marca}, id_empleado = {marca}, "
+                f"id_proyecto = {marca} "
                 f"WHERE id = {marca}"
             )
             cursor.execute(
@@ -144,6 +147,7 @@ class RegistroTiempoDAO:
                 (
                     registro.fecha,
                     registro.horas,
+                    registro.descripcion,
                     registro.id_empleado,
                     registro.id_proyecto,
                     registro.id

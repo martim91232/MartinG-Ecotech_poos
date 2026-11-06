@@ -67,7 +67,7 @@ class EmpleadoDAO:
             marca = marcador_sql()
             sql = f"""
                 SELECT id, nombre, correo, id_departamento
-                FROM empleado WHERE correo = {marca}
+                FROM empleado WHERE LOWER(correo) = LOWER({marca})
             """
             cursor.execute(sql, (correo_empleado,))
             fila = cursor.fetchone()

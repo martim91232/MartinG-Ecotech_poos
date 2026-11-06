@@ -40,6 +40,7 @@ def crear_tablas():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 fecha TEXT NOT NULL,
                 horas REAL NOT NULL,
+                descripcion TEXT NOT NULL DEFAULT '',
                 id_empleado INTEGER,
                 id_proyecto INTEGER,
                 FOREIGN KEY (id_empleado) REFERENCES empleado(id),
@@ -54,6 +55,27 @@ def crear_tablas():
                 id_empleado INTEGER NOT NULL UNIQUE,
                 rol TEXT NOT NULL DEFAULT 'empleado',
                 FOREIGN KEY (id_empleado) REFERENCES empleado(id)
+                )
+            '''
+            sql_indicador = '''
+                CREATE TABLE IF NOT EXISTS indicador_api (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                fuente TEXT NOT NULL,
+                codigo TEXT NOT NULL,
+                fecha TEXT NOT NULL,
+                valor REAL NOT NULL,
+                unidad TEXT NOT NULL,
+                verificado_en TEXT NOT NULL,
+                UNIQUE (fuente, codigo, fecha)
+                )
+            '''
+            sql_asignacion = '''
+                CREATE TABLE IF NOT EXISTS empleado_proyecto (
+                id_empleado INTEGER NOT NULL,
+                id_proyecto INTEGER NOT NULL,
+                PRIMARY KEY (id_empleado, id_proyecto),
+                FOREIGN KEY (id_empleado) REFERENCES empleado(id),
+                FOREIGN KEY (id_proyecto) REFERENCES proyecto(id)
                 )
             '''
         else:
@@ -89,6 +111,7 @@ def crear_tablas():
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 fecha VARCHAR(20) NOT NULL,
                 horas FLOAT NOT NULL,
+                descripcion VARCHAR(255) NOT NULL DEFAULT '',
                 id_empleado INT,
                 id_proyecto INT,
                 FOREIGN KEY (id_empleado) REFERENCES empleado(id),
@@ -105,12 +128,35 @@ def crear_tablas():
                 FOREIGN KEY (id_empleado) REFERENCES empleado(id)
                 )
             '''
+            sql_indicador = '''
+                CREATE TABLE IF NOT EXISTS indicador_api (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                fuente VARCHAR(100) NOT NULL,
+                codigo VARCHAR(40) NOT NULL,
+                fecha DATE NOT NULL,
+                valor FLOAT NOT NULL,
+                unidad VARCHAR(30) NOT NULL,
+                verificado_en VARCHAR(40) NOT NULL,
+                UNIQUE KEY indicador_unico (fuente, codigo, fecha)
+                )
+            '''
+            sql_asignacion = '''
+                CREATE TABLE IF NOT EXISTS empleado_proyecto (
+                id_empleado INT NOT NULL,
+                id_proyecto INT NOT NULL,
+                PRIMARY KEY (id_empleado, id_proyecto),
+                FOREIGN KEY (id_empleado) REFERENCES empleado(id),
+                FOREIGN KEY (id_proyecto) REFERENCES proyecto(id)
+                )
+            '''
 
         cursor.execute(sql_departamento)
         cursor.execute(sql_proyecto)
         cursor.execute(sql_empleado)
         cursor.execute(sql_usuario)
         cursor.execute(sql_registro)
+        cursor.execute(sql_indicador)
+        cursor.execute(sql_asignacion)
 
         if obtener_motor() == "sqlite":
             cursor.execute("PRAGMA table_info(departamento)")
@@ -153,6 +199,13 @@ def crear_tablas():
                 "UPDATE usuario SET rol = 'admin' "
                 "WHERE nombre_usuario = 'admin'"
             )
+            cursor.execute("PRAGMA table_info(registro_tiempo)")
+            columnas = {fila[1] for fila in cursor.fetchall()}
+            if "descripcion" not in columnas:
+                cursor.execute(
+                    "ALTER TABLE registro_tiempo ADD COLUMN "
+                    "descripcion TEXT NOT NULL DEFAULT ''"
+                )
         else:
             cursor.execute("SHOW COLUMNS FROM departamento")
             columnas = {fila[0] for fila in cursor.fetchall()}
@@ -176,6 +229,13 @@ def crear_tablas():
                 "UPDATE usuario SET rol = 'admin' "
                 "WHERE nombre_usuario = 'admin'"
             )
+            cursor.execute("SHOW COLUMNS FROM registro_tiempo")
+            columnas = {fila[0] for fila in cursor.fetchall()}
+            if "descripcion" not in columnas:
+                cursor.execute(
+                    "ALTER TABLE registro_tiempo ADD COLUMN "
+                    "descripcion VARCHAR(255) NOT NULL DEFAULT ''"
+                )
 
         conexion.commit()
 

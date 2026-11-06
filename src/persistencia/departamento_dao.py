@@ -104,6 +104,27 @@ class DepartamentoDAO:
                 conexion.close()
 
     @staticmethod
+    def asignar_gerente(id_departamento, gerente):
+        conexion = None
+        try:
+            conexion = abrir_conexion()
+            marca = marcador_sql()
+            cursor = conexion.execute(
+                f"UPDATE departamento SET gerente = {marca} "
+                f"WHERE id = {marca}",
+                (gerente, id_departamento),
+            )
+            conexion.commit()
+            return cursor.rowcount > 0
+        except Exception:
+            if conexion is not None:
+                conexion.rollback()
+            raise
+        finally:
+            if conexion is not None:
+                conexion.close()
+
+    @staticmethod
     def eliminar(id_departamento):
         conexion = None
         try:

@@ -5,6 +5,8 @@ from persistencia.empleado_dao import EmpleadoDAO
 from servicios.autenticacion import registrar_usuario
 from persistencia.usuario_dao import UsuarioDAO
 
+CLAVE_INICIAL_EMPLEADOS = "Empleado123*"
+
 
 def cargar_departamentos(mostrar_mensajes=True):
     datos = [
@@ -83,23 +85,52 @@ def cargar_empleados(departamento_demo=None, mostrar_mensajes=True):
             print(f"Creado: {correo}")
 
 def cargar_usuarios(mostrar_mensajes=True):
-    empleado = EmpleadoDAO.buscar_por_correo("alejandro.vargas@ecotech.cl")
-    if empleado is None:
-        return
-
     usuarios_existentes = UsuarioDAO.listar()
-    if any(u.nombre_usuario == "admin" for u in usuarios_existentes):
-        if mostrar_mensajes:
-            print("Ya existe: admin")
-        return
+    admin = next(
+        (usuario for usuario in usuarios_existentes
+        if usuario.nombre_usuario == "admin"),
+        None,
+    )
+    empleado_admin = EmpleadoDAO.buscar_por_correo(
+        "alejandro.vargas@ecotech.cl"
+    )
 
-    try:
-        usuario_id = registrar_usuario(
-            empleado.id, "admin", "Admin123*", rol="admin"
-        )
-        if usuario_id:
+    if admin is None and empleado_admin is not None:
+        try:
+            usuario_id = registrar_usuario(
+                empleado_admin.id, "admin", "Admin123*", rol="admin"
+            )
             if mostrar_mensajes:
-                print("Creado: admin")
-    except (TypeError, ValueError):
-        if mostrar_mensajes:
-            print("No se pudo crear el usuario admin")
+                print(f"Creado: admin (ID {usuario_id})")
+            usuarios_existentes = UsuarioDAO.listar()
+        except (TypeError, ValueError):
+            if mostrar_mensajes:
+                print("No se pudo crear el usuario admin")
+    elif mostrar_mensajes and admin is not None:
+        print("Ya existe: admin")
+
+    empleados = EmpleadoDAO.listar()
+    cuentas_por_empleado = {
+        usuario.empleado_id for usuario in usuarios_existentes
+    }
+    for empleado in empleados:
+        if empleado.id in cuentas_por_empleado:
+            continue
+
+        nombre_usuario = empleado.correo.split("@", 1)[0].replace(".", "_")
+        try:
+            usuario_id = registrar_usuario(
+                empleado.id,
+                nombre_usuario,
+                CLAVE_INICIAL_EMPLEADOS,
+                rol="empleado",
+            )
+            cuentas_por_empleado.add(empleado.id)
+            if mostrar_mensajes:
+                print(
+                    f"Creada cuenta de empleado: {empleado.correo} "
+                    f"(ID {usuario_id})"
+                )
+        except (TypeError, ValueError):
+            if mostrar_mensajes:
+                print(f"No se pudo crear cuenta para: {empleado.correo}")
