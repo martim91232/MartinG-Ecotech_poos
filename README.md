@@ -61,9 +61,9 @@ Contraseña: Admin123*
 ```
 
 Después de iniciar sesión, una cuenta administradora selecciona `4` para abrir el menú principal. Para crear
-otra cuenta, selecciona `2` antes de iniciar sesión, indica el ID de un empleado
-que todavía no tenga usuario y asigna sus credenciales. Después, el empleado
-inicia sesión usando su correo y contraseña.
+Al registrar un empleado desde `Gestionar sistema`, también se crea
+automáticamente su cuenta. Después, el empleado inicia sesión usando su correo
+y la contraseña inicial `Empleado123*`.
 
 Las cuentas iniciales de los empleados se crean automáticamente al iniciar la
 aplicación. La contraseña inicial es `Empleado123*` y se puede usar con el

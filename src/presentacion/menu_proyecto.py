@@ -1,7 +1,7 @@
 from dominio.proyecto import Proyecto
 from persistencia.proyecto_dao import ProyectoDAO
 from datetime import datetime
-from entradas import limpiar_consola
+from entradas import limpiar_consola, pedir_dato
 
 def menu_proyecto():
     opcion = ""
@@ -53,12 +53,30 @@ def pedir_id(mensaje: str):
 
 
 def nombre_valido(nombre: str) -> bool:
-    if not nombre or not nombre.strip():
-        return False
-    for caracter in nombre:
-        if not (caracter.isalpha() or caracter == " "):
-            return False
-    return True
+    return bool(nombre and nombre.strip() and all(
+        caracter.isalnum() or caracter == " "
+        for caracter in nombre
+    ))
+
+
+def validar_texto_proyecto(texto, campo):
+    if not isinstance(texto, str):
+        raise TypeError(f"{campo} debe ser texto.")
+    texto = texto.strip()
+    if not texto:
+        raise ValueError(f"{campo} no puede estar vacío.")
+    if not nombre_valido(texto):
+        raise ValueError(
+            f"{campo} solo puede tener letras, números y espacios."
+        )
+    return texto
+
+
+def validar_estado(estado):
+    estado = validar_texto_proyecto(estado, "El estado")
+    if not all(caracter.isalpha() or caracter == " " for caracter in estado):
+        raise ValueError("El estado solo puede contener palabras.")
+    return estado
 
 
 def fecha_valida(fecha: str) -> bool:
@@ -70,35 +88,21 @@ def fecha_valida(fecha: str) -> bool:
 
 
 def registrar_proyecto():
-    while True:
-        nombre = input("Nombre (0 para regresar): ").strip()
-        if nombre == "0":
-            return
-        if nombre == "":
-            print("El nombre no puede estar vacío.")
-            input("------------------------------\nPresione Enter para continuar...\n")
-            return
-        if not nombre_valido(nombre):
-            print("El nombre solo puede tener letras, números y espacios.")
-            input("------------------------------\nPresione Enter para continuar...\n")
-            return
-        else:
-            break
+    nombre = pedir_dato(
+        "Nombre (0 para regresar): ",
+        lambda valor: validar_texto_proyecto(valor, "El nombre"),
+        permitir_regreso=True,
+    )
+    if nombre is None:
+        return
 
-    while True:
-        descripcion = input("Descripción (0 para regresar): ").strip()
-        if descripcion == "0":
-            return
-        if descripcion == "":
-            print("La descripcion no puede estar vacia.")
-            input("------------------------------\nPresione Enter para continuar...\n")
-            return
-        if not nombre_valido(descripcion):
-            print("La descripcion solo puede tener letras, números y espacios.")
-            input("------------------------------\nPresione Enter para continuar...\n")
-            return
-        else:
-            break
+    descripcion = pedir_dato(
+        "Descripción (0 para regresar): ",
+        lambda valor: validar_texto_proyecto(valor, "La descripción"),
+        permitir_regreso=True,
+    )
+    if descripcion is None:
+        return
         
     while True:
         fecha_inicio_str = input(
@@ -137,15 +141,13 @@ def registrar_proyecto():
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
-    while True:
-        estado = input("Estado del proyecto (0 para regresar): ").strip()
-        if estado == "0":
-            return
-        if not estado.isalpha():
-            print("El estado solo puede contener palabras.")
-            input("Presione Enter para continuar...")
-        else:
-            break
+    estado = pedir_dato(
+        "Estado del proyecto (0 para regresar): ",
+        validar_estado,
+        permitir_regreso=True,
+    )
+    if estado is None:
+        return
     
     proyecto = Proyecto(nombre, descripcion, fecha_inicio, fecha_fin_obj, estado)
     try:

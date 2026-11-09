@@ -276,10 +276,6 @@ def asignar_gerente():
     input("Presione Enter para continuar...")
 
 
-def crear_cuenta_empleado():
-    solicitar_registro()
-
-
 def asignar_empleado_proyecto():
     empleados = EmpleadoDAO.listar()
     proyectos = ProyectoDAO.listar()
@@ -376,11 +372,9 @@ def menu_administrador(sesion):
         print("1. Mi ficha")
         print("2. Mis registros")
         print("3. Menú de indicadores")
-        print("4. Administrar empleados")
-        print("5. Crear cuenta de empleado")
-        print("6. Asignar empleado a proyecto")
-        print("7. Asignar gerente de departamento")
-        print("8. Gestionar sistema")
+        print("4. Asignar empleado a proyecto")
+        print("5. Asignar gerente de departamento")
+        print("6. Gestionar sistema")
         print("9. Cerrar sesión")
         print("0. Salir")
 
@@ -394,14 +388,10 @@ def menu_administrador(sesion):
         elif opcion == "3":
             menu_indicadores(sesion)
         elif opcion == "4":
-            menu_empleados()
-        elif opcion == "5":
-            ejecutar_accion(crear_cuenta_empleado)
-        elif opcion == "6":
             ejecutar_accion(asignar_empleado_proyecto)
-        elif opcion == "7":
+        elif opcion == "5":
             ejecutar_accion(asignar_gerente)
-        elif opcion == "8":
+        elif opcion == "6":
             menu_principal()
         else:
             print("Opción no válida.")

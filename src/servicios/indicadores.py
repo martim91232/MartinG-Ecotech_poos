@@ -1,4 +1,5 @@
 import math
+from email.utils import parsedate_to_datetime
 
 import requests
 from persistencia.indicador_dao import IndicadorDAO
@@ -29,9 +30,13 @@ def extraer_clp(datos, moneda="CLP"):
         raise ValueError("La moneda solicitada no tiene un valor válido.")
 
     fecha = datos.get("time_last_update_utc")
-    if not isinstance(fecha, str) or len(fecha) < 10:
+    if not isinstance(fecha, str):
         raise ValueError("La API no entregó una fecha válida.")
-    return fecha[:10], valor
+    try:
+        fecha_normalizada = parsedate_to_datetime(fecha).date().isoformat()
+    except (TypeError, ValueError, OverflowError) as error:
+        raise ValueError("La API no entregó una fecha válida.") from error
+    return fecha_normalizada, valor
 
 
 def consultar_indicador(sesion):
@@ -50,6 +55,5 @@ def consultar_indicador(sesion):
 def obtener_historial(sesion):
     exigir_sesion(sesion)
     return IndicadorDAO.listar()
-
 
 

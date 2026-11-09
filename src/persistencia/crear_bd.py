@@ -101,7 +101,7 @@ def crear_tablas():
                 CREATE TABLE IF NOT EXISTS empleado (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 nombre VARCHAR(100) NOT NULL,
-                correo VARCHAR(150) NOT NULL,
+                correo VARCHAR(254) NOT NULL,
                 id_departamento INT,
                 FOREIGN KEY (id_departamento) REFERENCES departamento(id)
                 )

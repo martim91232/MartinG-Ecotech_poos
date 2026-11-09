@@ -177,11 +177,28 @@ class EmpleadoDAO:
             conexion = abrir_conexion()
             cursor = conexion.cursor()
             marca = marcador_sql()
-            sql = (
-                "DELETE FROM empleado "
-                f"WHERE id = {marca}"
+            cursor.execute(
+                f"""
+                SELECT 1 FROM usuario
+                WHERE id_empleado = {marca} AND rol = {marca}
+                """,
+                (id_empleado, "admin"),
             )
-            cursor.execute(sql, (id_empleado,))
+            if cursor.fetchone() is not None:
+                raise ValueError(
+                    "No se puede eliminar el empleado asociado al administrador."
+                )
+
+            for tabla in ("registro_tiempo", "empleado_proyecto", "usuario"):
+                cursor.execute(
+                    f"DELETE FROM {tabla} WHERE id_empleado = {marca}",
+                    (id_empleado,),
+                )
+
+            cursor.execute(
+                f"DELETE FROM empleado WHERE id = {marca}",
+                (id_empleado,),
+            )
             conexion.commit()
             return cursor.rowcount > 0
         except Exception:

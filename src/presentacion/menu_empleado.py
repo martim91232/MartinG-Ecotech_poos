@@ -1,7 +1,8 @@
 from dominio.empleado import Empleado
 from persistencia.departamento_dao import DepartamentoDAO
-from entradas import limpiar_consola
+from entradas import limpiar_consola, pedir_dato
 from persistencia.empleado_dao import EmpleadoDAO
+from servicios.autenticacion import registrar_usuario
 from presentacion.menu_departamento import listar_departamentos
 from persistencia.departamento_dao import DepartamentoDAO
 
@@ -55,17 +56,6 @@ def pedir_id(mensaje: str):
         input("------------------------------\nPresione Enter para continuar...\n")
         return None
 
-def nombre_valido(nombre: str) -> bool:
-    if not nombre or not nombre.strip():
-        return False
-    if len(nombre.strip()) > Empleado.MAX_NOMBRE:
-        return False
-    for caracter in nombre:
-        if not (caracter.isalpha() or caracter == " "):
-            return False
-    return True
-
-
 def mostrar_departamentos():
     try:
         departamentos = DepartamentoDAO.listar()
@@ -83,30 +73,20 @@ def mostrar_departamentos():
         return False
 
 def registrar_empleado():
-    nombre = input("Nombre (0 para regresar): ").strip()
-    if nombre == "0":
-        return
-    correo = input("Correo (0 para regresar): ").strip()
-    if correo == "0":
+    nombre = pedir_dato(
+        "Nombre (0 para regresar): ",
+        Empleado.validar_nombre,
+        permitir_regreso=True,
+    )
+    if nombre is None:
         return
 
-    if not nombre or not correo:
-        print("El nombre y el correo no pueden estar vacíos.")
-        input("------------------------------\nPresione Enter para continuar...\n")
-        return
-    if len(correo) > Empleado.MAX_CORREO:
-        print(
-            "El correo no puede superar "
-            f"los {Empleado.MAX_CORREO} caracteres."
-        )
-        input("------------------------------\nPresione Enter para continuar...\n")
-        return
-    if not nombre_valido(nombre):
-        print(
-            "El nombre solo puede contener letras y espacios y tener "
-            f"hasta {Empleado.MAX_NOMBRE} caracteres."
-        )
-        input("------------------------------\nPresione Enter para continuar...\n")
+    correo = pedir_dato(
+        "Correo (0 para regresar): ",
+        Empleado.validar_correo,
+        permitir_regreso=True,
+    )
+    if correo is None:
         return
 
     id_departamento = None
@@ -129,7 +109,24 @@ def registrar_empleado():
 
         empleado = Empleado(nombre, correo, id_departamento=id_departamento)
         EmpleadoDAO.insertar(empleado)
-        print(f"Empleado registrado correctamente. ID: {empleado.id}")
+        nombre_usuario = correo.split("@", 1)[0].replace(".", "_")
+        try:
+            registrar_usuario(
+                empleado.id,
+                nombre_usuario,
+                "Empleado123*",
+                rol="empleado",
+            )
+        except (TypeError, ValueError) as error:
+            print(
+                f"Empleado registrado correctamente, pero no se pudo crear "
+                f"su cuenta: {error}"
+            )
+        else:
+            print(
+                f"Empleado registrado correctamente. ID: {empleado.id}. "
+                "Cuenta creada con la contraseña inicial Empleado123*."
+            )
     except Exception as e:
         print(f"No fue posible registrar el empleado: {e}")
     input("------------------------------\nPresione Enter para continuar...\n")
@@ -184,30 +181,19 @@ def actualizar_empleado():
         input("------------------------------\nPresione Enter para continuar...\n")
         return
 
-    nombre_nuevo = input("Nombre nuevo (0 para regresar): ").strip()
-    if nombre_nuevo == "0":
+    nombre_nuevo = pedir_dato(
+        "Nombre nuevo (0 para regresar): ",
+        Empleado.validar_nombre,
+        permitir_regreso=True,
+    )
+    if nombre_nuevo is None:
         return
-    correo_nuevo = input("Correo nuevo (0 para regresar): ").strip()
-    if correo_nuevo == "0":
-        return
-
-    if not nombre_nuevo or not correo_nuevo:
-        print("El nombre y el correo no pueden estar vacíos.")
-        input("------------------------------\nPresione Enter para continuar...\n")
-        return
-    if len(correo_nuevo) > Empleado.MAX_CORREO:
-        print(
-            "El correo no puede superar "
-            f"los {Empleado.MAX_CORREO} caracteres."
-        )
-        input("------------------------------\nPresione Enter para continuar...\n")
-        return
-    if not nombre_valido(nombre_nuevo):
-        print(
-            "El nombre solo puede contener letras y espacios y tener "
-            f"hasta {Empleado.MAX_NOMBRE} caracteres."
-        )
-        input("------------------------------\nPresione Enter para continuar...\n")
+    correo_nuevo = pedir_dato(
+        "Correo nuevo (0 para regresar): ",
+        Empleado.validar_correo,
+        permitir_regreso=True,
+    )
+    if correo_nuevo is None:
         return
 
     try:
