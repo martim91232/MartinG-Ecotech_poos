@@ -1,10 +1,54 @@
 El uso de la IA se ha usado en diferentes partes del codigo, principalmente se uso para:
 -Creacion de nombres de departamentos y empleados
 -Copilot para autocompletar
--Se uso agente Copilot para revisar el codigo y ver que errores tenia, agregando expeciones 
+-Se usó agente Copilot para revisar el codigo y ver que errores tenia, agregando excepciones
 y mensajes de error para no filtrar informacion sensible del codigo.
 
--El empleado no puede ver departamentos,registrotiempo,empleados, solo l peude ver dministrador osea hy que moverlos ahora, separrlos en 2 menus, menu empleado y administrador
--se puede usar la api de main_prueba.py
+-Utilice Copilot como herramienta de apoyo durante el 
+desarrollo del proyecto, Me ayudó a identificar y corregir errores, 
+mejorar las validaciones de empleados, usuarios, correos y contraseñas, 
+organizar los menús según los roles y agregar controles de permisos. 
+También la utilicé para revisar la persistencia de datos, 
+la consulta de indicadores y el manejo de excepciones. 
+Las decisiones finales, modificaciones 
+y pruebas del sistema fueron revisadas y realizadas por mí
 
--1. Mi ficha 2. Mis registros 3. Consultar API" menu administrador
+-La inteligencia artificial ayudo a mejorar errores como: 
+
+-Metodos DAO inexistentes o 
+-llamados con nombres incorrectos.
+-Fechas de la API en un formato diferente al esperado.
+-Intentos de eliminar empleados con cuentas o registros relacionados.
+-Validaciones duplicadas entre menú y dominio.
+-Uso inicial de ID y correo en vez de correo y contraseña.
+-Mensajes que desaparecían antes de poder leerlos.
+-Opciones duplicadas en los menús.
+
+-La IA propuso cambios y mejoras en el codigo, que igualmente se tuvieron que revisar para que el codigo
+funcionara bien.
+
+-Se corrigieron riesgos como:
+
+-Contraseñas almacenadas sin texto plano mediante bcrypt.
+-Control de acceso por rol en cada operación administrativa.
+-Consultas parametrizadas para evitar inyección SQL.
+-Validación de datos ingresados por el usuario.
+-Restricción para que un empleado no vea ni modifique datos ajenos.
+-Restricción para registrar horas únicamente en proyectos asignados.
+-Protección de la cuenta administrativa al eliminar empleados.
+
+-La IA ayudó a centralizar validaciones en las clases de dominio
+
+La IA generó redundancias y vulnerabilidaades como:
+-Validacioens repetidas en el menu y en Empleado
+-Crear cuenta de empleado duplicada, porque registrar empleado ya crea la cuenta
+-Funciones de consultas de indicadores repetidas entre menu y servicio.
+
+-Se intento eliminar empleados sin borrar  primero sus cuentas, asignaciones y registros relacionados
+-No se validaba  correctamente que un empleado estuviera asignado al proyecto antes de registrar
+sus horas.
+-Algunas validaciones se omitian y solo estaban en el menu y no al crear objetos directamente.
+
+-todo esto se corrigio usando bcrypt, validaciones en el dominio, permisos por rol, consultas parametrizadas,
+y relaciones controladas.
+
