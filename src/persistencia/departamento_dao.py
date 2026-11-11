@@ -109,7 +109,8 @@ class DepartamentoDAO:
         try:
             conexion = abrir_conexion()
             marca = marcador_sql()
-            cursor = conexion.execute(
+            cursor = conexion.cursor()
+            cursor.execute(
                 f"UPDATE departamento SET gerente = {marca} "
                 f"WHERE id = {marca}",
                 (gerente, id_departamento),

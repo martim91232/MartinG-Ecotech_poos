@@ -7,8 +7,9 @@ class AsignacionProyectoDAO:
         conexion = None
         try:
             conexion = abrir_conexion()
+            cursor = conexion.cursor()
             marca = marcador_sql()
-            conexion.execute(
+            cursor.execute(
                 f"INSERT INTO empleado_proyecto (id_empleado, id_proyecto) "
                 f"VALUES ({marca}, {marca})",
                 (id_empleado, id_proyecto),
@@ -27,8 +28,9 @@ class AsignacionProyectoDAO:
         conexion = None
         try:
             conexion = abrir_conexion()
+            cursor = conexion.cursor()
             marca = marcador_sql()
-            cursor = conexion.execute(
+            cursor.execute(
                 f"DELETE FROM empleado_proyecto "
                 f"WHERE id_empleado = {marca} AND id_proyecto = {marca}",
                 (id_empleado, id_proyecto),
@@ -48,12 +50,14 @@ class AsignacionProyectoDAO:
         conexion = None
         try:
             conexion = abrir_conexion()
+            cursor = conexion.cursor()
             marca = marcador_sql()
-            fila = conexion.execute(
+            cursor.execute(
                 f"SELECT 1 FROM empleado_proyecto "
                 f"WHERE id_empleado = {marca} AND id_proyecto = {marca}",
                 (id_empleado, id_proyecto),
-            ).fetchone()
+            )
+            fila = cursor.fetchone()
             return fila is not None
         finally:
             if conexion is not None:
@@ -64,8 +68,9 @@ class AsignacionProyectoDAO:
         conexion = None
         try:
             conexion = abrir_conexion()
+            cursor = conexion.cursor()
             marca = marcador_sql()
-            return conexion.execute(
+            cursor.execute(
                 f"""
                 SELECT p.id, p.nombre, p.descripcion, p.fecha_inicio,
                     p.fecha_fin, p.estado
@@ -75,7 +80,8 @@ class AsignacionProyectoDAO:
                 ORDER BY p.id
                 """,
                 (id_empleado,),
-            ).fetchall()
+            )
+            return cursor.fetchall()
         finally:
             if conexion is not None:
                 conexion.close()
