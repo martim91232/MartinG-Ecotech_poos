@@ -124,7 +124,7 @@ def crear_tablas():
                 nombre_usuario VARCHAR(40) NOT NULL UNIQUE,
                 password_hash VARCHAR(255) NOT NULL,
                 id_empleado INT NOT NULL UNIQUE,
-                rol TEXT NOT NULL DEFAULT 'empleado', CHECK (rol IN ('admin', 'empleado')),
+                rol VARCHAR(20) NOT NULL DEFAULT 'empleado', CHECK (rol IN ('admin', 'empleado')),
                 FOREIGN KEY (id_empleado) REFERENCES empleado(id)
                 )
             '''
