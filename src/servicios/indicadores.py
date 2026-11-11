@@ -9,7 +9,7 @@ from servicios.permisos import exigir_sesion
 
 def obtener_datos():
     respuesta = requests.get(
-        "https://open.er-api.com/v6/latest/USD",
+        "https://open.er-api.com/v6/latest2/USD",
         timeout=(3, 5),
     )
     respuesta.raise_for_status()

@@ -52,3 +52,4 @@ sus horas.
 -todo esto se corrigio usando bcrypt, validaciones en el dominio, permisos por rol, consultas parametrizadas,
 y relaciones controladas.
 
+-Copilot ayudo a que funcionar con Mysql, por eso los commits estan en ingles.
