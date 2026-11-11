@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 
 RAIZ_PROYECTO = Path(__file__).resolve().parents[2]
 load_dotenv(RAIZ_PROYECTO / ".env")
+load_dotenv(RAIZ_PROYECTO / "src" / ".env", override=False)
 
 
 def obtener_motor():
